@@ -1,0 +1,3 @@
+<td {%-if cell.classes|length > 0 %} class="{{ " ".join(cell.classes) }}"{%-endif-%}>
+  {{ cell.repr(cell.data) }}
+</td>

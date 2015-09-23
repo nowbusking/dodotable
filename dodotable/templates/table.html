@@ -1,0 +1,35 @@
+<div class="card-wrap dodotable-wrap">
+  <p>
+    총 {{ table.count }}개
+  </p>
+
+  <div class="filters">
+    {%- for filter in table._filters -%}
+      {%- if isinstance(filter, 'dodotable.schema:Renderable') -%}
+        {{- filter|safe -}}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <table class="table-hover table form-inline dodotable">
+    <caption>
+      {{ table.label }}
+    </caption>
+
+    <thead>
+    <tr>
+      {% for col in table.columns %}
+        {{ col|safe }}
+      {% endfor %}
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for row in table.rows %}
+      {{ row|safe }}
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {{ table.pager|safe }}
+</div>
