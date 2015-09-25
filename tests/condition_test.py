@@ -6,7 +6,7 @@ from dodotable.condition import Ilike, IlikeSet, SelectFilter, IlikeAlias, \
 from dodotable.schema import Table, Column
 from dodotable.util import camel_to_underscore
 
-from .entities import Music, Tag
+from.entities import Music, Tag
 from .helper import compare_html, monkey_patch_environment, pager_html
 
 

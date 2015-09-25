@@ -1,0 +1,29 @@
+#!/bin/bash
+# $ ln -s `pwd`/pre-commit .git/hooks/
+echo "run pre-commit..."
+if [[ "$DEBUG" = "" ]]; then
+  function run {
+    $@
+    exitcode=$?
+    if [[ "$exitcode" != "0" ]]; then
+      exit $exitcode
+    fi
+  }
+else
+  function run {
+    printf "%.s=" {1..80}
+    time $@
+    echo '$' $1 $2 1>&2
+    exitcode=$?
+    if [[ "$exitcode" != "0" ]]; then
+      exit $exitcode
+    fi
+    printf "%.s=" {1..80}
+  }
+  flake8_benchmark="--benchmark"
+fi
+run flake8 --exclude=docs/ .
+run import-order \
+  --exclude=docs \
+  --exclude=tests \
+  dodotable .

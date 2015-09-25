@@ -42,7 +42,6 @@ class Environment(object):
             mod = cls
         return isinstance(instance, mod)
 
-
     def __dict__(self):
         env = {}
         for attribute in dir(self):

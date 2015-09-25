@@ -6,8 +6,8 @@ import codecs
 import re
 import sys
 
-from jinja2 import PackageLoader
-from jinja2 import Environment
+from jinja2 import Environment, PackageLoader
+
 
 __all__ = 'camel_to_underscore', 'render', '_get_data'
 
@@ -42,7 +42,7 @@ def render(template_name, extra_environments={}, **kwargs):
     :return:
 
     """
-    default_loader = default_loader
+    default_loader = PackageLoader('dodotable', 'templates')
     loader = extra_environments.get(
         'template_loader',
         default_loader)

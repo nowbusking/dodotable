@@ -57,4 +57,3 @@ pager_html = u'''
     <li>다음</li>
 </ul>
 '''
-

@@ -1,7 +1,5 @@
-from setuptools import setup, find_packages
-
 import ast
-import sys
+from setuptools import find_packages, setup
 
 
 def readme():
@@ -32,12 +30,14 @@ tests_require = [
     'pytest >= 2.7.0',
     'tox >= 2.1.1',
 ]
-
-
 install_requires = [
     'setuptools',
     'jinja2',
     'SQLAlchemy',
+]
+extras_require = [
+    'import-order',
+    'flake8'
 ]
 
 
@@ -53,6 +53,7 @@ setup(
     install_requires=install_requires,
     extras_require={
         'tests': tests_require,
+        'extras': extras_require
     },
     tests_require=tests_require,
     classifiers=[]

@@ -3,10 +3,10 @@
 
 """
 from sqlalchemy.sql.expression import asc, desc, or_
-from dodotable.exc import BadChoice
-from dodotable.util import (camel_to_underscore, render, _get_data,
-                            string_literal)
-from .schema import Schema, Renderable, Queryable, ENVIRONMENT
+
+from .exc import BadChoice
+from .schema import Queryable, Renderable, Schema
+from .util import camel_to_underscore, string_literal, _get_data
 
 
 class _Filter(Schema):

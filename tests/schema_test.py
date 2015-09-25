@@ -1,7 +1,7 @@
 from dodotable.schema import Cell, Column, Row, Table, Pager
 
 from .entities import Music
-from .helper import compare_html, monkey_patch_environment
+from .helper import compare_html, monkey_patch_environment, pager_html
 
 
 def test_cell():

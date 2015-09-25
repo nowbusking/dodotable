@@ -33,7 +33,6 @@ def fx_music(fx_session):
     return music
 
 
-
 @fixture
 def fx_tags(fx_session):
     genre = Tag(t='genre', name='Acoustic')

@@ -2,13 +2,18 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
-from .schema import Renderable, Queryable
+from .schema import Queryable, Renderable, Schema
+from .util import camel_to_underscore
 
 
 __all__ = 'Limit',
 
 
-class Limit(Renderable, Queryable):
+class _Helper(Schema):
+    pass
+
+
+class Limit(_Helper, Renderable, Queryable):
     """querystring 중에 ``limit``\ 를 조작해서 100개보기 같은 기능을 제공합니다."""
 
     def __init__(self, table, request_args, identifier=None):
@@ -22,5 +27,4 @@ class Limit(Renderable, Queryable):
         pass
 
     def __html__(self):
-        return render('limit.html', filter=self)
-
+        return self.render('limit.html', filter=self)

@@ -12,12 +12,12 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Query, Session
 
 from .environment.flask import FlaskEnvironment
-from .util import render, _get_data, string_literal
+from .util import render, string_literal, _get_data
+
 
 __all__ = (
     'Cell', 'Column', 'ENVIRONMENT', 'Queryable', 'Renderable',
     'Row', 'Table', 'Pager', 'Schema',
-    'create_search_name', 'string_literal',
 )
 
 
@@ -82,7 +82,6 @@ class Queryable(object):
     def __query__(self):
         """모든 :class:`~dodotable.Queryable` 객체가 구현해야하는 메소드."""
         raise NotImplementedError('__query__ not implemented yet.')
-
 
 
 class Cell(Schema, Renderable):
