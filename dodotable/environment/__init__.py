@@ -14,6 +14,16 @@ class Environment(object):
     #: (:class:`tuple`) methods that
     __env_methods__ = 'get_session',
 
+    @property
+    def template_loader(self):
+        """Get custom template loader
+
+        :return: jinja template loader
+        :rtype: :class:`jinja2.loaders.BaseLoader`
+
+        """
+        return None
+
     def build_url(self, *args, **kwargs):
         raise NotImplementedError()
 

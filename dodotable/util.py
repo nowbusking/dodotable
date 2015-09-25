@@ -42,7 +42,13 @@ def render(template_name, extra_environments={}, **kwargs):
     :return:
 
     """
-    env = Environment(loader=PackageLoader('dodotable', 'templates'),
+    default_loader = default_loader
+    loader = extra_environments.get(
+        'template_loader',
+        default_loader)
+    if not loader:
+        loader = default_loader
+    env = Environment(loader=loader,
                       extensions=('jinja2.ext.with_',))
     env.globals.update(extra_environments)
     template = env.get_template(template_name)
