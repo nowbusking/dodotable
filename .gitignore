@@ -3,4 +3,6 @@
 __pycache__
 *.db
 
-docs/_build 
+docs/_build
+
+.DS_Store

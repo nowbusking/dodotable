@@ -1,5 +1,5 @@
-""":mod:`dodotable.` --- Hello filter!
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+""":mod:`dodotable.condition` --- Hello filter!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 from sqlalchemy.sql.expression import asc, desc, or_

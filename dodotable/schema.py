@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-""":mod:`dodotable` --- table for sqlalchemy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+""":mod:`dodotable.schema` --- table for sqlalchemy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 from __future__ import absolute_import
