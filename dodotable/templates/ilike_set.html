@@ -2,31 +2,27 @@
          qs = {filter.arg_type_name: filter.request_args.get(filter.arg_name, ''),
                filter.arg_name: search_word} -%}
 
-  <form method="GET" action="{{ build_url(**qs) }}" class="ilike-set">
-      <select name="{{ filter.arg_type_name }}">
-          {% for column in filter.table.columns %}
-            {%- for filter in column.filters -%}
-              {%- if isinstance(filter, 'dodotable.condition:Ilike') -%}
-                <option value="{{ column.attr }}">
-                    {{ column.label }}
-                </option>
-              {%- endif -%}
-            {%- endfor -%}
-          {% endfor %}
-      </select>
+   <form method="GET" action="{{ build_url(**qs) }}" class="search-filter-wrap">
+     <select name="{{ filter.arg_type_name }}" class="search-filter">
+       {% for column in filter.table.columns %}
+         {%- for filter in column.filters -%}
+           {%- if isinstance(filter, 'dodotable.condition:Ilike') -%}
+             <option value="{{ column.attr }}">
+               {{ column.label }}
+             </option>
+           {%- endif -%}
+         {%- endfor -%}
+       {% endfor %}
+     </select>
 
-      <input type="text" name="{{ filter.arg_name }}"
-             value="{{ search_word }}" />
+     <input type="text" name="{{ filter.arg_name }}"
+                        value="{{ search_word }}" class="search-input" />
 
-      {% for k, v in filter.request_args.items() %}
-        {% if k not in [filter.arg_type_name, 'limit', 'offset'] %}
-          <input type="hidden" name="{{ k }}" value="{{ v }}" />
-        {% endif %}
-      {% endfor %}
-
-      <button type="submit" class="btn btn-default">
-          검색
-      </button>
-  </form>
+     {% for k, v in filter.request_args.items() %}
+       {% if k not in [filter.arg_type_name, 'limit', 'offset'] %}
+         <input type="hidden" name="{{ k }}" value="{{ v }}" />
+       {% endif %}
+     {% endfor %}
+   </form>
 
 {%- endwith -%}

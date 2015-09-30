@@ -10,13 +10,11 @@
   {% endif %}
 
   <li>
-    {% if pager.pages[0].selected %}
-      이전
-    {% else %}
+    {%- if not pager.pages[0].selected -%}
       <a href="{{ to_url(request, prev_page) }}">
         이전
       </a>
-    {% endif %}
+    {%- endif -%}
   </li>
 
   {% for page in pager.pages %}
@@ -40,12 +38,10 @@
 
 
   <li>
-    {% if pager.pages[-1].selected %}
-      다음
-    {% else %}
+    {%- if not pager.pages[-1].selected -%}
       <a href="{{ to_url(request, next_page) }}">
         다음
       </a>
-    {% endif %}
+    {%- endif -%}
   </li>
 </ul>
