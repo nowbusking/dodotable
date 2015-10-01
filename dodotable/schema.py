@@ -295,10 +295,9 @@ class Table(Schema, Queryable, Renderable):
         self.rows = []
         self._columns = columns
         self._count = None
+        self.session = sqlalchemy_session
         try:
-            if sqlalchemy_session:
-                self.session = sqlalchemy_session
-            else:
+            if sqlalchemy_session is None:
                 self.session = self.environment.get_session()
         finally:
             if not self.session:
