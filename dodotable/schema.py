@@ -286,9 +286,9 @@ class Table(Schema, Queryable, Renderable):
 
     """
 
-    def __init__(self, cls: DeclarativeMeta, label: str,
-                 columns: list=[],
-                 sqlalchemy_session: Session=None):
+    def __init__(self, cls, label,
+                 columns=[],
+                 sqlalchemy_session=None):
         self.cls = cls
         self.label = label
         self._filters = []
@@ -304,6 +304,7 @@ class Table(Schema, Queryable, Renderable):
                 raise ValueError("{0.__class__.__name__}.session "
                                  "can't be None".format(self))
         self.pager = Pager(limit=1, offset=0, count=0)
+        self.pager.environment = self.environment
 
     def select(self, offset, limit):
         self.rows = []
@@ -318,6 +319,7 @@ class Table(Schema, Queryable, Renderable):
             self.rows.append(_row)
         self.pager = Pager(limit=limit, offset=offset,
                            count=self.count)
+        self.pager.environment = self.environment
         return self
 
     def add_filter(self, filter):

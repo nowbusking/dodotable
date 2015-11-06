@@ -32,6 +32,7 @@ tests_require = [
 ]
 install_requires = [
     'setuptools',
+    'flask',
     'jinja2',
     'SQLAlchemy',
 ]
