@@ -1,5 +1,5 @@
 {%- with search_word = filter.request_args.get(filter.arg_name, ''),
-         qs = {filter.arg_type_name: filter.request_args.get(filter.arg_name, ''),
+         qs = {filter.arg_type_name: filter.request_args.get(filter.arg_type_name, ''),
                filter.arg_name: search_word} -%}
 
    <form method="GET" action="{{ build_url(**qs) }}" class="search-filter-wrap">

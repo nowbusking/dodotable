@@ -1,24 +1,28 @@
 # -*- coding: utf-8 -*-
 from pytest import mark
 
-from dodotable.condition import Ilike, IlikeSet, SelectFilter, IlikeAlias, \
-    create_search_name
+from dodotable.condition import (Ilike, IlikeSet, SelectFilter, IlikeAlias,
+                                 create_search_name)
 from dodotable.schema import Table, Column
 from dodotable.util import camel_to_underscore
+from mock import PropertyMock, patch
 
-from.entities import Music, Tag
-from .helper import compare_html, monkey_patch_environment, pager_html
+from .entities import Music, Tag
+from .helper import (DodotableTestEnvironment, compare_html, pager_html,
+                     table_html)
 
 
-@monkey_patch_environment
-def test_ilike(fx_session, fx_music):
+@patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
+       return_value=DodotableTestEnvironment())
+def test_ilike(environ, fx_session, fx_music):
     word = fx_music.name
     name = create_search_name(camel_to_underscore(Music.__name__))
     payload = dict([
         (name['type'], u'name'),
         (name['word'], word)
     ])
-    table = Table(cls=Music, label=u'test', columns=[
+    table_label = u'test'
+    table = Table(cls=Music, label=table_label, columns=[
         Column(attr='id', label=u'id', order_by='id.desc'),
         Column(attr='name', label=u'이름', filters=[
             Ilike(Music, 'name', payload)
@@ -28,26 +32,20 @@ def test_ilike(fx_session, fx_music):
                          request_args=payload)
     table.add_filter(ilike_set)
     search_html = u'''
-    <form method="GET" action="a" class="ilike-set">
-        <select name="{0[type]}">
+    <form method="GET" action="/?search_music.word={1.name}&search_music.type=name" class="search-filter-wrap">
+        <select name="{0[type]}" class="search-filter">
             <option value="name">
                 이름
             </option>
         </select>
 
         <input type="text" name="{0[word]}"
-         value="{1}" />
+         value="{1.name}" class="search-input" />
 
         <input type="hidden" name="{0[word]}"
-         value="{1}" />
-
-        <button type="submit" class="btn btn-default">
-            검색
-        </button>
+         value="{1.name}" />
     </form>
-    '''.format(name, fx_music.name)
-    actual = ilike_set.__html__()
-    assert compare_html(actual, search_html)
+    '''.format(name, fx_music)
     q = fx_session.query(Music) \
                   .filter(Music.name.ilike(u'%{}%'.format(word)))
     music = q.one()
@@ -57,50 +55,26 @@ def test_ilike(fx_session, fx_music):
       <td>{name}</td>
     </tr>
     '''.format(id=music.id, name=music.name)
-    expected = u'''
-    <div class="card-wrap dodotable-wrap">
-    <p>
-      총 {count}개
-    </p>
-
-    <div class="filters">
-    {search_html}
-    </div>
-
-        <table class="table-hover table form-inline dodotable">
-            <caption>
-              test
-            </caption>
-
-            <thead>
-                <tr>
-                    <th class="order-desc">
-                        <a href="/?order_by=id.asc">id</a>
-                    </th>
-                    <th class="order-none">
-                        <a href="/?order_by=name.desc">이름</a>
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-              {rows}
-            </tbody>
-        </table>
-
-
-        {pager}
-    </div>
-    '''.format(count=q.count(), rows=expected_rows,
-               search_html=search_html, pager=pager_html)
+    column_html = u'''<tr><th class="order-desc ">
+      <a href="/?order_by=id.asc">id</a>
+    </th>
+    <th class="order-none ">
+      <a href="/?order_by=name.desc">이름</a>
+    </th>
+    </tr>
+    '''
+    actual_ilike = ilike_set.__html__()
+    assert compare_html(actual_ilike, search_html)
     table = table.select(offset=0, limit=10)
-    actual = table.__html__()
-    assert compare_html(actual, expected)
+    actual_table = table.__html__()
+    expected_table = table_html(count=q.count(), rows=expected_rows,
+                                filters=search_html, columns=column_html,
+                                title=table_label, pager=pager_html)
+    assert compare_html(actual_table, expected_table)
 
 
 @mark.parametrize('t', ['genre', 'country'])
-@monkey_patch_environment
-def test_select_filter(fx_tags, t, fx_session):
+def test_select_filter(fx_tags, fx_session, t):
     select_filter = SelectFilter(
         Tag,
         't',

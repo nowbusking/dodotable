@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """:mod:`dodotable.condition` --- Hello filter!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -6,7 +7,7 @@ from sqlalchemy.sql.expression import asc, desc, or_
 
 from .exc import BadChoice
 from .schema import Queryable, Renderable, Schema
-from .util import camel_to_underscore, string_literal, _get_data
+from .util import camel_to_underscore, string_literal, string_type, _get_data
 
 
 class _Filter(Schema):
@@ -206,7 +207,7 @@ class Order(Queryable):
         asc_order = cls.asc_order_name(attr)
         desc_order = cls.desc_order_name(attr)
         order = None
-        if not order_by or not isinstance(order_by, string_literal):
+        if not order_by or not isinstance(order_by, string_type):
             return None
         for o in order_by.split(','):
             if o.strip() == asc_order:

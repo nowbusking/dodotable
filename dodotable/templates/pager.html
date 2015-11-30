@@ -2,20 +2,25 @@
   {{ build_url(offset=page.offset, limit=page.limit) }}
 {%- endmacro %}
 
-<ul class="pager">
+
+<ul class="pager clearfix">
   {% if pager.pages[-2] and (pager.pages[-2].number <= (pager.pages[-1].number - 1)) %}
     {% set prev_page = pager.from_page_number(pager.pages[1].number - 1) %}
   {% else %}
     {% set prev_page = pager.pages[0] %}
   {% endif %}
 
-  <li>
-    {%- if not pager.pages[0].selected -%}
+  {% if pager.pages[0].selected -%}
+    <li>
+      이전
+    </li>
+  {%- else %}
+    <li>
       <a href="{{ to_url(request, prev_page) }}">
         이전
       </a>
-    {%- endif -%}
-  </li>
+    </li>
+  {%- endif %}
 
   {% for page in pager.pages %}
     <li class="{% if loop.first %}first{% elif loop.last %}last{% endif %}">
@@ -37,11 +42,15 @@
 
 
 
-  <li>
-    {%- if not pager.pages[-1].selected -%}
-      <a href="{{ to_url(request, next_page) }}">
+  {% if pager.pages[-1].selected -%}
+    <li>
+      다음
+    </li>
+  {%- else %}
+    <li>
+      <a href="{{ to_url(request, prev_page) }}">
         다음
       </a>
-    {%- endif -%}
-  </li>
+    </li>
+  {%- endif %}
 </ul>

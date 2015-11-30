@@ -6,3 +6,5 @@ __pycache__
 docs/_build
 
 .DS_Store
+
+.cache

@@ -39,4 +39,5 @@ def fx_tags(fx_session):
     country = Tag(t='country', name='irish')
     fx_session.add(genre)
     fx_session.add(country)
+    fx_session.commit()
     return genre, country

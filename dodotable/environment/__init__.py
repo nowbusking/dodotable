@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """:mod:`dodotable.environment` --- Environment for dodotable.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -30,7 +31,7 @@ class Environment(object):
     def get_session(self):
         raise NotImplementedError()
 
-    def isinstance(self, instance, cls: (str, type)):
+    def isinstance(self, instance, cls):
         if not isinstance(cls, type):
             try:
                 name = cls.split(':')

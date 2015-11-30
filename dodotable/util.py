@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """:mod:`dodotable.util` --- utility
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -9,7 +10,10 @@ import sys
 from jinja2 import Environment, PackageLoader
 
 
-__all__ = 'camel_to_underscore', 'render', '_get_data'
+__all__ = (
+    'camel_to_underscore', 'render', '_get_data',
+    'string_literal', 'string_type',
+)
 
 
 #: (:class:`_sre.SRE_Pattern`) 첫번째 대문자를 찾습니다.
@@ -69,8 +73,23 @@ def _get_data(data, attribute_name, default):
 
     return __data__(data, name_chain) or default
 
+try:
+    string_type = basestring
+except NameError:
+    string_type = str
+
 
 if sys.version_info < (3,):
-    string_literal = lambda x: codecs.unicode_escape_decode(x)[0]
+    import numbers
+    def to_str(x):
+        if isinstance(x, numbers.Number):
+            x = str(x)
+        return codecs.unicode_escape_decode(x)[0]
+    string_literal = to_str
 else:
     string_literal = str
+
+try:
+    string_type = basestring
+except NameError:
+    string_type = str

@@ -1,4 +1,5 @@
 import ast
+import sys
 from setuptools import find_packages, setup
 
 
@@ -42,6 +43,13 @@ extras_require = [
 ]
 
 
+def get_install_requirements(requires):
+    install_requires = requires[:]
+    if 'bdist_wheel' not in sys.argv and sys.version_info < (3, 4):
+        install_requires.append('mock')
+    return install_requires
+
+
 setup(
     name='dodotable',
     version=get_version(),
@@ -51,7 +59,7 @@ setup(
     author='Kang Hyojun',
     author_email='ed' '@' 'spoqa.com',
     packages=find_packages(),
-    install_requires=install_requires,
+    install_requires=get_install_requirements(install_requires),
     extras_require={
         'tests': tests_require,
         'extras': extras_require

@@ -1,7 +1,10 @@
-from dodotable.schema import Cell, Column, Row, Table, Pager
+# -*- coding: utf-8 -*-
+from dodotable.schema import Cell, Column, Row, Table, Pager, Schema
+from mock import patch, PropertyMock
 
 from .entities import Music
-from .helper import compare_html, monkey_patch_environment, pager_html
+from .helper import (compare_html, DodotableTestEnvironment, pager_html,
+                     table_html)
 
 
 def test_cell():
@@ -11,7 +14,9 @@ def test_cell():
     assert compare_html(c.__html__(), expected)
 
 
-def test_row():
+@patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
+       return_value=DodotableTestEnvironment())
+def test_row(environ):
     expected = '<tr>'
     row = Row()
     for n in range(0, 10):
@@ -22,21 +27,24 @@ def test_row():
     assert compare_html(row.__html__(), expected)
 
 
-@monkey_patch_environment
-def test_column():
+@patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
+       return_value=DodotableTestEnvironment())
+def test_column(environ):
     column_label = 'name'
     column_key = 'name'
     expected = '''
-        <th class="order-none">
+        <th class="order-none ">
             <a href="/?order_by={attr}.desc">{label}</a>
         </th>
     '''.format(attr=column_key, label=column_label)
     column = Column(attr=column_key, label=column_label)
+    column.environment = DodotableTestEnvironment()
     assert compare_html(column.__html__(), expected)
 
 
-@monkey_patch_environment
-def test_table(fx_session, fx_music):
+@patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
+       return_value=DodotableTestEnvironment())
+def test_table(environ, fx_session, fx_music):
     q = fx_session.query(Music) \
         .order_by(Music.id.desc())
     expected_rows = ''
@@ -47,48 +55,27 @@ def test_table(fx_session, fx_music):
             <td>{name}</td>
         </tr>
         '''.format(id=music.id, name=music.name)
-    expected = u'''
-    <div class="card-wrap dodotable-wrap">
-    <p>
-      총 {count}개
-    </p>
-
-    <div class="filters">
-    </div>
-
-        <table class="table-hover table form-inline dodotable">
-            <caption>
-              테스트
-            </caption>
-
-            <thead>
-                <tr>
-                    <th class="order-desc">
-                        <a href="/?order_by=id.asc">id</a>
-                    </th>
-                    <th class="order-none">
-                        <a href="/?order_by=name.desc">이름</a>
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-              {rows}
-            </tbody>
-        </table>
-
-        {pager}
-    </div>
-    '''.format(count=q.count(), rows=expected_rows, pager=pager_html)
+    table_label = u'테스트'
     table = Table(
         cls=Music,
-        label=u'테스트',
+        label=table_label,
         columns=[
             Column(attr='id', label=u'id', order_by='id.desc'),
             Column(attr='name', label=u'이름'),
         ],
         sqlalchemy_session=fx_session
     )
+    column_html = u'''<tr><th class="order-desc ">
+      <a href="/?order_by=id.asc">id</a>
+    </th>
+    <th class="order-none ">
+      <a href="/?order_by=name.desc">이름</a>
+    </th>
+    </tr>
+    '''
+    expected = table_html(count=q.count(), rows=expected_rows,
+                          filters='', columns=column_html,
+                          title=table_label, pager=pager_html)
     html = table.select(offset=0, limit=10).__html__()
     assert compare_html(html, expected)
 
@@ -106,7 +93,6 @@ class TestColumn(Column):
                         data=getattr(data, attribute_name, default))
 
 
-@monkey_patch_environment
 def test_custom_cell(fx_session, fx_music):
     fx_session.commit()
     table = Table(cls=Music, label='hello', columns=[

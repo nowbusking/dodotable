@@ -1,22 +1,48 @@
+# -*- coding: utf-8 -*-
+import lxml.html.diff
 from contextlib import contextmanager
 import functools
 import re
+try:
+    from urllib import unquote
+except ImportError:
+    from urllib.parse import unquote
 
+import dodotable.schema
 from dodotable.environment import Environment
-from dodotable.schema import Schema
 
 
 def removed_spaces(html):
+    # 태그 시작과 끝에 빈칸을 삭제합니다.
     html = re.sub(r'(>\s+)', r'>', html)
     html = re.sub(r'(\s+<)', r'<', html)
+    # attribute값 근처의 빈칸을 삭제합니다.
+    html = re.sub(r'("\s+)', r'" ', html)
+    html = re.sub(r'(\s+")', r' "', html)
+    # 줄바꿈을 삭제합니다.
     html = re.sub(r'\n', '', html)
-    # remove action
-    html = re.sub(r'action=".+" ', '', html)
+    # 셀프클로징을 없앱니다
+    html = re.sub(r' \/>', '>', html)
     return html
 
 
+def html_unquote(html):
+    html = unquote(html)
+    replacements = [
+        ('&amp;', '&'),
+        ('&gt;', '>'),
+        ('&lt;', '<'),
+    ]
+    for target, replacement in replacements:
+        html = html.replace(target, replacement)
+    return html
+
 def compare_html(actual, expected):
-    return removed_spaces(actual) == removed_spaces(expected)
+    actual = removed_spaces(actual)
+    expected = removed_spaces(expected)
+    diff = html_unquote(lxml.html.diff.htmldiff(actual, expected))
+    assert diff == actual
+    return diff == actual
 
 
 class DodotableTestEnvironment(Environment):
@@ -29,31 +55,44 @@ class DodotableTestEnvironment(Environment):
         return None
 
 
-@contextmanager
-def mock_environment():
-    try:
-        old = Schema.environment
-        Schema.environment = DodotableTestEnvironment()
-        yield
-    finally:
-        Schema.environment = old
-
-
-def monkey_patch_environment(test):
-    def decorate_callable(test):
-        @functools.wraps(test)
-        def wrapper(*args, **kw):
-            with mock_environment():
-                return test(*args, **kw)
-        return wrapper
-
-    return decorate_callable(test)
-
-
 pager_html = u'''
-<ul class="pager">
-    <li>이전</li>
-    <li class="first"><span class="selected">1</span></li>
-    <li>다음</li>
+<ul class="pager clearfix">
+  <li>이전</li>
+  <li class="first"><span class="selected">1</span></li>
+  <li>다음</li>
 </ul>
 '''
+
+table_html = u'''
+<div class="table-wrap">
+
+    <div class="table-header-wrap row">
+      <div class="table-header col-sm-3">
+        <h5 class="table-title">
+          {title}
+        </h5>
+        <div class="table-information">
+          총 {count}개 매장이 있습니다.
+        </div>
+      </div>
+
+      <div class="table-filters col-sm-9">
+        {filters}
+      </div>
+    </div>
+
+
+    <table class="table dodotable">
+
+        <thead>
+          {columns}
+        </thead>
+
+        <tbody>
+          {rows}
+        </tbody>
+    </table>
+
+    {pager}
+</div>
+'''.format

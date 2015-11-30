@@ -6,6 +6,10 @@
 from __future__ import absolute_import
 
 import collections
+try:
+    from collections.abc import MutableSequence
+except ImportError:
+    from collections import MutableSequence
 import math
 from sqlalchemy.ext.declarative import DeclarativeMeta
 
@@ -189,7 +193,7 @@ class LinkedColumn(Column):
                           endpoint=endpoint)
 
 
-class Row(Schema, collections.abc.MutableSequence, Renderable):
+class Row(Schema, MutableSequence, Renderable):
     """테이블에 행을 나타내는 클래스 """
 
     def __init__(self):
