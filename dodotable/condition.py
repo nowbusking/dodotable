@@ -7,7 +7,7 @@ from sqlalchemy.sql.expression import asc, desc, or_
 
 from .exc import BadChoice
 from .schema import Queryable, Renderable, Schema
-from .util import camel_to_underscore, string_literal, string_type, _get_data
+from .util import camel_to_underscore, string_type, _get_data
 
 
 class _Filter(Schema):

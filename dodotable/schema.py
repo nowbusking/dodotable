@@ -11,9 +11,8 @@ try:
 except ImportError:
     from collections import MutableSequence
 import math
-from sqlalchemy.ext.declarative import DeclarativeMeta
 
-from sqlalchemy.orm import Query, Session
+from sqlalchemy.orm import Query
 
 from .environment.flask import FlaskEnvironment
 from .util import render, string_literal, _get_data

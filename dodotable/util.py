@@ -81,6 +81,7 @@ except NameError:
 
 if sys.version_info < (3,):
     import numbers
+
     def to_str(x):
         if isinstance(x, numbers.Number):
             x = str(x)

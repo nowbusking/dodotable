@@ -49,7 +49,7 @@ class DodotableTestEnvironment(Environment):
 
     def build_url(self, *args, **kwargs):
         queries = ['{}={}'.format(k, v) for k, v in kwargs.items()]
-        return '/?{}'.format('&'.join(queries))
+        return '/?{}'.format('&'.join(sorted(queries)))
 
     def get_session(self):
         return None
