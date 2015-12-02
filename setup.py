@@ -36,6 +36,7 @@ install_requires = [
     'flask',
     'jinja2',
     'SQLAlchemy',
+    'six >= 1.10.0, < 2.0.0',
 ]
 extras_require = [
     'import-order',

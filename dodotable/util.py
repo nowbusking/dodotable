@@ -6,13 +6,15 @@
 import codecs
 import re
 import sys
+import numbers
 
+import six
 from jinja2 import Environment, PackageLoader
 
 
 __all__ = (
     'camel_to_underscore', 'render', '_get_data',
-    'string_literal', 'string_type',
+    'string_literal',
 )
 
 
@@ -73,24 +75,14 @@ def _get_data(data, attribute_name, default):
 
     return __data__(data, name_chain) or default
 
-try:
-    string_type = basestring
-except NameError:
-    string_type = str
 
-
-if sys.version_info < (3,):
-    import numbers
-
+if six.PY2:
     def to_str(x):
+        if isinstance(x, six.text_type):
+            return x
         if isinstance(x, numbers.Number):
             x = str(x)
         return codecs.unicode_escape_decode(x)[0]
     string_literal = to_str
 else:
     string_literal = str
-
-try:
-    string_type = basestring
-except NameError:
-    string_type = str
