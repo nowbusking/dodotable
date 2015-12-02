@@ -16,7 +16,7 @@
     </li>
   {%- else %}
     <li>
-      <a href="{{ to_url(request, prev_page) }}">
+      <a href="{{ to_url(prev_page) }}">
         이전
       </a>
     </li>
@@ -27,7 +27,7 @@
       {% if page.selected %}
         <span class="selected">{{ page.number }}</span>
       {% else %}
-        <a href="{{ to_url(request, page) }}">
+        <a href="{{ to_url(page) }}">
           {{ page.number }}
         </a>
       {% endif %}
@@ -48,7 +48,7 @@
     </li>
   {%- else %}
     <li>
-      <a href="{{ to_url(request, prev_page) }}">
+      <a href="{{ to_url(prev_page) }}">
         다음
       </a>
     </li>
