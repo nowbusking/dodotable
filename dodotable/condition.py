@@ -16,7 +16,7 @@ class _Filter(Schema):
     pass
 
 
-class SelectFilter(_Filter):
+class SelectFilter(_Filter, Renderable):
     """여러 옵션중 하나를 선택하는 필터를 만듭니다.
 
     :param cls:
