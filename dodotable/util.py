@@ -82,6 +82,8 @@ if six.PY2:
             return x
         if isinstance(x, numbers.Number):
             x = str(x)
+        elif x is None:
+            x = ''
         return codecs.unicode_escape_decode(x)[0]
     string_literal = to_str
 else:
