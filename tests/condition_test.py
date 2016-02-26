@@ -69,7 +69,8 @@ def test_ilike(environ, fx_session, fx_music):
     actual_table = table.__html__()
     expected_table = table_html(count=q.count(), rows=expected_rows,
                                 filters=search_html, columns=column_html,
-                                title=table_label, pager=pager_html)
+                                title=table_label, pager=pager_html,
+                                unit_label='row')
     assert compare_html(actual_table, expected_table)
 
 

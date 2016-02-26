@@ -75,7 +75,8 @@ def test_table(environ, fx_session, fx_music):
     '''
     expected = table_html(count=q.count(), rows=expected_rows,
                           filters='', columns=column_html,
-                          title=table_label, pager=pager_html)
+                          title=table_label, pager=pager_html,
+                          unit_label=u'row')
     html = table.select(offset=0, limit=10).__html__()
     assert compare_html(html, expected)
 

@@ -289,11 +289,12 @@ class Table(Schema, Queryable, Renderable):
 
     """
 
-    def __init__(self, cls, label,
+    def __init__(self, cls, label, unit_label="row",
                  columns=[],
                  sqlalchemy_session=None):
         self.cls = cls
         self.label = label
+        self.unit_label = unit_label
         self._filters = []
         self.rows = []
         self._columns = columns

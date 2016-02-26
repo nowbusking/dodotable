@@ -72,7 +72,7 @@ table_html = u'''
           {title}
         </h5>
         <div class="table-information">
-          총 {count}개 매장이 있습니다.
+          총 {count}개 {unit_label}이(가) 있습니다.
         </div>
       </div>
 
