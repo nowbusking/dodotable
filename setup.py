@@ -28,13 +28,14 @@ def get_version():
 
 
 tests_require = [
+    'lxml',
     'pytest >= 2.7.0',
     'tox >= 2.1.1',
 ]
 install_requires = [
     'setuptools',
-    'flask',
-    'jinja2',
+    'Flask',
+    'Jinja2',
     'SQLAlchemy',
     'six >= 1.10.0, < 2.0.0',
 ]
