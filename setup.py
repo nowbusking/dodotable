@@ -62,7 +62,7 @@ setup(
     author_email='ed' '@' 'spoqa.com',
     packages=find_packages(exclude=['tests']),
     package_data={
-        'dodo': ['templates/*.html'],
+        'dodotable': ['templates/*.html'],
     },
     install_requires=get_install_requirements(install_requires),
     extras_require={
