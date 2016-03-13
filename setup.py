@@ -59,7 +59,10 @@ setup(
     license='Public Domain',
     author='Kang Hyojun',
     author_email='ed' '@' 'spoqa.com',
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
+    package_data={
+        'dodo': ['templates/*.html'],
+    },
     install_requires=get_install_requirements(install_requires),
     extras_require={
         'tests': tests_require,
