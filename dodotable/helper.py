@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """:mod:`dodotable.helper` --- helper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -28,3 +29,15 @@ class Limit(_Helper, Renderable, Queryable):
 
     def __html__(self):
         return self.render('limit.html', filter=self)
+
+
+def monkey_patch_environment(environ):
+    modules = 'dodotable.schema', 'dodotable.condition', 'dodotable.helper'
+    e = environ()
+    for module_name in modules:
+        module = __import__(module_name, globals(), locals(), ['*'], -1)
+        for attr in dir(module):
+            try:
+                getattr(module, attr).environment = e
+            except AttributeError:
+                continue
