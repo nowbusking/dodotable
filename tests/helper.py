@@ -38,11 +38,15 @@ def html_unquote(html):
     return html
 
 def compare_html(actual, expected):
-    actual = removed_spaces(actual)
-    expected = removed_spaces(expected)
-    diff = html_unquote(lxml.html.diff.htmldiff(actual, expected))
-    assert diff == actual
-    return diff == actual
+    _actual = removed_spaces(actual)
+    _expected = removed_spaces(expected)
+    diff = html_unquote(lxml.html.diff.htmldiff(_actual, _expected))
+    for i, (a, e) in enumerate(zip(_actual, _expected)):
+        if a != e:
+            print(i)
+            break
+    assert diff == _actual, _actual[:i]
+    return diff == _actual
 
 
 class DodotableTestEnvironment(Environment):
@@ -56,33 +60,39 @@ class DodotableTestEnvironment(Environment):
 
 
 pager_html = u'''
-<ul class="pager clearfix">
-  <li>이전</li>
-  <li class="first"><span class="selected">1</span></li>
-  <li>다음</li>
+<ul class="pager">
+  <li class="page-stepper">이전</li>
+  <li>
+      <ol class="pager-pages">
+          <li class="first"><span class="selected">1</span></li>
+      </ol>
+  </li>
+  <li class="page-stepper">다음</li>
 </ul>
 '''
 
 table_html = u'''
 <div class="table-wrap">
 
-    <div class="table-header-wrap row">
-      <div class="table-header col-sm-3">
+    <div class="table-header-wrap">
+      <div class="table-header">
         <h5 class="table-title">
           {title}
         </h5>
+
+        <div class="table-filters">
+          {filters}
+        </div>
+
         <div class="table-information">
           총 {count}개 {unit_label}이(가) 있습니다.
         </div>
       </div>
 
-      <div class="table-filters col-sm-9">
-        {filters}
-      </div>
     </div>
 
 
-    <table class="table dodotable">
+    <table class="table">
 
         <thead>
           {columns}
@@ -93,6 +103,10 @@ table_html = u'''
         </tbody>
     </table>
 
-    {pager}
+    <div class="table-footer">
+        {pager}
+        <div class="limit-view">
+        </div>
+    </div>
 </div>
 '''.format
