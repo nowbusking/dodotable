@@ -250,7 +250,7 @@ class Pager(Schema, Renderable):
     @property
     def pages(self):
         page_count = int(math.ceil(self.count / float(self.limit)))
-        current_page_count = (self.offset / self.limit) + 1
+        current_page_count = (self.offset // self.limit) + 1
         pages = []
         s = (current_page_count - 1) // self.padding
         start = s * 10 + 1
