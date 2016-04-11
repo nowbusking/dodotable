@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # $ ln -s `pwd`/pre-commit .git/hooks/
 echo "run pre-commit..."
 if [[ "$DEBUG" = "" ]]; then
@@ -26,4 +26,5 @@ run flake8 --exclude=docs/ .
 run import-order \
   --exclude=docs \
   --exclude=tests \
+  --exclude=.tox \
   dodotable .
