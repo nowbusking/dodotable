@@ -31,6 +31,8 @@ tests_require = [
     'lxml',
     'pytest >= 2.7.0',
     'tox >= 2.1.1',
+    'import-order',
+    'flake8',
 ]
 install_requires = [
     'setuptools',
@@ -38,10 +40,6 @@ install_requires = [
     'Jinja2',
     'SQLAlchemy',
     'six >= 1.10.0, < 2.0.0',
-]
-extras_require = [
-    'import-order',
-    'flake8'
 ]
 
 
@@ -67,7 +65,6 @@ setup(
     install_requires=get_install_requirements(install_requires),
     extras_require={
         'tests': tests_require,
-        'extras': extras_require
     },
     tests_require=tests_require,
     classifiers=[]
