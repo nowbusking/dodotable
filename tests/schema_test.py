@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from dodotable.schema import Cell, Column, Row, Table, Pager, Schema
+from dodotable.schema import Cell, Column, Row, Table, Pager
 from mock import patch, PropertyMock
 
 from .entities import Music

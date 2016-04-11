@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 import lxml.html.diff
-from contextlib import contextmanager
-import functools
 import re
 try:
     from urllib import unquote
 except ImportError:
     from urllib.parse import unquote
 
-import dodotable.schema
 from dodotable.environment import Environment
 
 
@@ -36,6 +33,7 @@ def html_unquote(html):
     for target, replacement in replacements:
         html = html.replace(target, replacement)
     return html
+
 
 def compare_html(actual, expected):
     _actual = removed_spaces(actual)

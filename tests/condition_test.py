@@ -45,7 +45,7 @@ def test_ilike(environ, fx_session, fx_music):
         <input type="hidden" name="{0[word]}"
          value="{1.name}" />
     </form>
-    '''.format(name, fx_music)
+    '''.format(name, fx_music)  # noqa
     q = fx_session.query(Music) \
                   .filter(Music.name.ilike(u'%{}%'.format(word)))
     music = q.one()

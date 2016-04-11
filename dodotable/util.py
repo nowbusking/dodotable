@@ -4,12 +4,11 @@
 
 """
 import codecs
-import re
-import sys
 import numbers
+import re
 
-import six
 from jinja2 import Environment, PackageLoader
+import six
 
 
 __all__ = (
