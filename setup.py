@@ -57,7 +57,7 @@ setup(
     version=get_version(),
     description='dodotable',
     long_description=readme(),
-    license='Public Domain',
+    license='MIT',
     author='Kang Hyojun',
     author_email='ed' '@' 'spoqa.com',
     packages=find_packages(exclude=['tests']),
