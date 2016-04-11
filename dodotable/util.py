@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-""":mod:`dodotable.util` --- utility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+""":mod:`dodotable.util` --- utilities
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 import codecs

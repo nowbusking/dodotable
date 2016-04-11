@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """:mod:`dodotable.helper` --- helper
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 from .schema import Queryable, Renderable, Schema
@@ -15,7 +15,10 @@ class _Helper(Schema):
 
 
 class Limit(_Helper, Renderable, Queryable):
-    """querystring 중에 ``limit``\ 를 조작해서 100개보기 같은 기능을 제공합니다."""
+    """querystring 중에 ``limit``\ 를 조작해서 100개보기 같은 기능을
+    제공합니다.
+
+    """
 
     def __init__(self, table, request_args, identifier=None):
         self.table = table

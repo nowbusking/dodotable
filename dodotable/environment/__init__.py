@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-""":mod:`dodotable.environment` --- Environment for dodotable.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+""":mod:`dodotable.environment` --- Environment for dodotable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 __all__ = 'Environment',

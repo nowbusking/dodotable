@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-""":mod:`dodotable.schema` --- table for sqlalchemy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+""":mod:`dodotable.schema` --- table schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 from __future__ import absolute_import
@@ -29,6 +29,7 @@ ENVIRONMENT = FlaskEnvironment()
 
 class Schema(object):
     """
+
     :param environment:
     :type environment: :class:`~.environment.Environment`
 
