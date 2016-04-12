@@ -20,11 +20,13 @@ def get_version():
         tree = ast.parse(f.read(), filename)
         for node in tree.body:
             if (isinstance(node, ast.Assign) and
-                    node.targets[0].id == '__version__'):
-                version = ast.literal_eval(node.value)
-        if isinstance(version, tuple):
-            version = '.'.join([str(x) for x in version])
-        return version
+                    node.targets[0].id == '__version_info__'):
+                version = '.'.join(
+                    str(x) for x in ast.literal_eval(node.value)
+                )
+                return version
+        else:
+            raise ValueError('could not find __version_info__')
 
 
 tests_require = [
