@@ -57,6 +57,7 @@ setup(
     version=get_version(),
     description='dodotable',
     long_description=readme(),
+    url='https://github.com/spoqa/dodotable',
     license='MIT',
     author='Kang Hyojun',
     author_email='ed' '@' 'spoqa.com',
