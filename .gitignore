@@ -1,0 +1,12 @@
+*.egg-info
+*.pyc
+__pycache__
+*.db
+dist
+docs/_build
+
+.DS_Store
+
+.cache
+
+.tox

@@ -1,0 +1,46 @@
+<div class="table-wrap">
+
+  <div class="table-header-wrap">
+    <div class="table-header">
+      <h5 class="table-title">
+        {{ table.label }}
+      </h5>
+
+      <div class="table-filters">
+        {%- for filter in table._filters -%}
+          {%- if isinstance(filter, 'dodotable.schema:Renderable') -%}
+            {{- filter|safe -}}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="table-information">
+        총 {{ table.count }}개 {{ table.unit_label }}이(가) 있습니다.
+      </div>
+    </div>
+
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        {% for col in table.columns %}
+        {{ col|safe }}
+        {% endfor %}
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in table.rows %}
+      {{ row|safe }}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="table-footer">
+    {{ table.pager|safe }}
+
+    <div class="limit-view">
+    </div>
+  </div>
+</div>

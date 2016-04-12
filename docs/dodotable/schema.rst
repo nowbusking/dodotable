@@ -1,0 +1,3 @@
+
+.. automodule:: dodotable.schema
+   :members:

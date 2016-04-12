@@ -1,0 +1,28 @@
+{%- with search_word = filter.request_args.get(filter.arg_name, ''),
+         qs = {filter.arg_type_name: filter.request_args.get(filter.arg_type_name, ''),
+               filter.arg_name: search_word} -%}
+
+   <form method="GET" action="{{ build_url(**qs) }}" class="search-filter-wrap">
+     <select name="{{ filter.arg_type_name }}" class="search-filter">
+       {% for column in filter.table.columns %}
+         {%- for filter in column.filters -%}
+           {%- if isinstance(filter, 'dodotable.condition:Ilike') -%}
+             <option value="{{ column.attr }}">
+               {{ column.label }}
+             </option>
+           {%- endif -%}
+         {%- endfor -%}
+       {% endfor %}
+     </select>
+
+     <input type="text" name="{{ filter.arg_name }}"
+                        value="{{ search_word }}" class="search-input" />
+
+     {% for k, v in filter.request_args.items() %}
+       {% if k not in [filter.arg_type_name, 'limit', 'offset'] %}
+         <input type="hidden" name="{{ k }}" value="{{ v }}" />
+       {% endif %}
+     {% endfor %}
+   </form>
+
+{%- endwith -%}

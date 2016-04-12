@@ -1,0 +1,16 @@
+{%- with name = "select.{}".format(filter.attribute_name),
+         selected_name = filter.arguments.get(name, filter.default) -%}
+  <select class="{{ filter.attribute_name }} form-control select">
+    {%- for choice in filter.choices -%}
+      <option {% if selected_name == choice['name'] %}selected="selected"{% endif %} data-url="{{ build_url(**{name: choice['name'], 'limit': 10, 'offset': 0}) }}">
+        {{ choice['description'] }}
+      </option>
+    {%- endfor -%}
+  </select>
+
+  <script type="text/javascript">
+    $(".{{ filter.attribute_name }}").change(function() {
+      location.href = $('option:selected', this).data('url');
+    });
+  </script>
+{%- endwith -%}

@@ -1,0 +1,13 @@
+<th class="order-{{ column.order_by if column.order_by else 'none' }}
+{{ ' '.join(column.classes) }}">
+  {%- with order = 'asc' if column.order_by == 'desc' else 'desc',
+           q_order = '{}.{}'.format(column.attr, order) -%}
+    {% if column.sortable %}
+      <a href="{{ build_url(order_by=q_order) }}">
+        {{ column.label }}
+      </a>
+    {% else %}
+      {{ column.label }}
+    {% endif %}
+  {%- endwith -%}
+</th>

@@ -1,0 +1,56 @@
+{% macro to_url(page) -%}
+  {{ build_url(offset=page.offset, limit=page.limit) }}
+{%- endmacro %}
+
+
+<ul class="pager">
+  {% if pager.pages[-2] and (pager.pages[-2].number <= (pager.pages[-1].number - 1)) %}
+    {% set prev_page = pager.from_page_number(pager.pages[1].number - 1) %}
+  {% else %}
+    {% set prev_page = pager.pages[0] %}
+  {% endif %}
+
+  <li class="page-stepper">
+    {%- if pager.pages[0].selected -%}
+      이전
+    {%- else -%}
+      <a href="{{ to_url(prev_page) }}" class="previous">
+        이전
+      </a>
+    {%- endif -%}
+  </li>
+
+  <li>
+    <ol class="pager-pages">
+      {% for page in pager.pages %}
+        <li class="{% if loop.first %}first{% elif loop.last %}last{% endif %}">
+          {% if page.selected %}
+            <span class="selected">{{ page.number }}</span>
+          {% else %}
+            <a href="{{ to_url(page) }}">
+              {{ page.number }}
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </li>
+
+  {% if pager.pages[-2] and (pager.pages[-2].number <= (pager.pages[-1].number - 1)) %}
+    {% set next_page = pager.from_page_number(pager.pages[-2].number + 1) %}
+  {% else %}
+    {% set next_page = pager.pages[-1] %}
+  {% endif %}
+
+
+
+  <li class="page-stepper">
+  {% if pager.pages[-1].selected -%}
+    다음
+  {%- else %}
+    <a href="{{ to_url(prev_page) }}" class="next">
+      다음
+    </a>
+  {%- endif %}
+  </li>
+</ul>
