@@ -356,6 +356,10 @@ class Table(Schema, Queryable, Renderable):
     def count(self):
         return self.build_base_query().count()
 
+    @property
+    def comma_count(self):
+        return "{:,}".format(self.count)
+
     def build_base_query(self):
         if isinstance(self.cls, Query):
             query = self.cls
