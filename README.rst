@@ -9,17 +9,83 @@ HTML table representation for `SQLAlchemy`_ .
 SQLAlchemy to ``<table>``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Assume you have a entity called `Music`. and it looks like below.
+
 .. code-block:: python
 
-   from dodotable.schema import Table
+   class Music(Base):
+
+       id = Column(Integer, primary_key=True)
+
+       name = Column(Unicode, nullable=False)
+
+
+Maybe you want a list of musics that ordered by its column, and want to show
+in your web browser.
+
+.. code-block:: python
+
+   from dodotable.schema import Table, Column
 
    table = Table(
        cls=Music,
        label='music table',
        columns=[
-           Column(attr='id', label=u'id'),
+           Column(attr='id', label=u'id', order_by='id.desc'),
            Column(attr='name', label=u'name'),
        ],
        sqlalchemy_session=session
    )
    print(table.select(offset=0, limit=10).__html__())
+
+
+Using with Flask_
+~~~~~~~~~~~~~~~~~
+
+Flask_ use Jinja2_ as the template engine. Like they mentioned on
+document[1]_, it is one of strategy that implement ``__html__`` on every class
+inherit ``dodotable.schema.Renderable`` to convert a instance into HTML
+directly in Jinja2_. Re-write the example written before with Flask_.
+
+
+.. code-block:: python
+
+   from dodotable.schema import Table, Column
+   from flask import Flask, render_template, request
+
+   app = Flask(__name__)
+
+
+   @app.route('/musics/', methods=['GET'])
+   def list_musics():
+       table = Table(
+           cls=Music,
+           label='music table',
+           columns=[
+               Column(attr='id', label=u'id',
+                      order_by=request.args.get('order_by')),
+               Column(attr='name', label=u'name'),
+           ],
+           sqlalchemy_session=session
+       )
+       return render_template(
+           'list_musics.html',
+           table=table.select(limit=request.args.get('limit'),
+                              offset=request.args.get('offset'))
+       )
+
+And ``list_musics.html`` which is jinja2 template is look like below.
+
+.. code-block::
+
+   <html>
+     <body>
+       {{ table }}
+     </body>
+   </html>
+
+
+.. _Flask: http://flask.pocoo.org
+.. _Jinja2: http://jinja.pocoo.org
+
+.. [1] http://jinja.pocoo.org/docs/dev/api/#jinja2.Markup
