@@ -9,7 +9,7 @@ HTML table representation for `SQLAlchemy`_ .
 SQLAlchemy to ``<table>``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Assume you have a entity called `Music`. and it looks like below.
+Assume you have an entity called `Music`. It looks like the below.
 
 .. code-block:: python
 
@@ -20,8 +20,7 @@ Assume you have a entity called `Music`. and it looks like below.
        name = Column(Unicode, nullable=False)
 
 
-Maybe you want a list of musics that ordered by its column, and want to show
-in your web browser.
+The following code renders a sortable <table> consisting of a list of music.
 
 .. code-block:: python
 
@@ -42,7 +41,7 @@ in your web browser.
 Using with Flask_
 ~~~~~~~~~~~~~~~~~
 
-Flask_ use Jinja2_ as the template engine. Like they mentioned on
+Flask_ uses Jinja2_ as the template engine. As they mentioned on
 document[1]_, it is one of strategy that implement ``__html__`` on every class
 inherit ``dodotable.schema.Renderable`` to convert a instance into HTML
 directly in Jinja2_. Re-write the example written before with Flask_.
