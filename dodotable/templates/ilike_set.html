@@ -3,7 +3,7 @@
                filter.arg_name: search_word} -%}
 
    <form method="GET" action="{{ build_url(**qs) }}" class="search-filter-wrap">
-     <select name="{{ filter.arg_type_name }}" class="search-filter">
+     <select name="{{ filter.arg_type_name }}" class="form-control search-filter">
        {% for column in filter.table.columns %}
          {%- for filter in column.filters -%}
            {%- if isinstance(filter, 'dodotable.condition:Ilike') -%}
@@ -16,7 +16,7 @@
      </select>
 
      <input type="text" name="{{ filter.arg_name }}"
-                        value="{{ search_word }}" class="search-input" />
+                        value="{{ search_word }}" class="form-control search-input" />
 
      {% for k, v in filter.request_args.items() %}
        {% if k not in [filter.arg_type_name, 'limit', 'offset'] %}

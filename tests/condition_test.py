@@ -33,14 +33,14 @@ def test_ilike(environ, fx_session, fx_music):
     table.add_filter(ilike_set)
     search_html = u'''
     <form method="GET" action="/?search_music.type=name&search_music.word={1.name}" class="search-filter-wrap">
-        <select name="{0[type]}" class="search-filter">
+        <select name="{0[type]}" class="form-control search-filter">
             <option value="name">
                 이름
             </option>
         </select>
 
         <input type="text" name="{0[word]}"
-         value="{1.name}" class="search-input" />
+         value="{1.name}" class="form-control search-input" />
 
         <input type="hidden" name="{0[word]}"
          value="{1.name}" />
