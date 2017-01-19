@@ -37,9 +37,17 @@
     </thead>
 
     <tbody>
-      {% for row in table.rows %}
-      {{ row|safe }}
-      {% endfor %}
+      {%- if table.rows -%}
+        {% for row in table.rows %}
+        {{ row|safe }}
+        {% endfor %}
+      {%- else -%}
+        <tr>
+          <td class="table-empty-data" colspan="{{ table.columns | length }}">
+            {%- trans -%} No result found. {%- endtrans -%}
+          </td>
+        </tr>
+      {%- endif -%}
     </tbody>
   </table>
 

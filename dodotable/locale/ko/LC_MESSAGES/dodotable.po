@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dodotable 0.1.2\n"
 "Report-Msgid-Bugs-To: ed@spoqa.com\n"
-"POT-Creation-Date: 2017-01-19 15:49+0900\n"
+"POT-Creation-Date: 2017-01-19 15:58+0900\n"
 "PO-Revision-Date: 2017-01-19 14:45+0900\n"
 "Last-Translator: Hong Minhee <hongminhee@spoqa.com>\n"
 "Language: ko\n"
@@ -24,8 +24,12 @@ msgid "%(limit)s per page"
 msgid_plural "%(limit)s per page"
 msgstr[0] "%(limit)s개씩 보기"
 
-#: dodotable/templates/table.html:18
+#: dodotable/templates/table.html:20
 #, python-format
 msgid "There are %(number)s %(unit_label)s items."
 msgid_plural "There is %(number)s %(unit_label)s item."
 msgstr[0] "총 %(number)s개 %(unit_label)s 항목이 있습니다."
+
+#: dodotable/templates/table.html:47
+msgid "No result found."
+msgstr "등록된 항목이 없습니다."
