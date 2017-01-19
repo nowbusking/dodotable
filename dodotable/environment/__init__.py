@@ -31,6 +31,9 @@ class Environment(object):
     def get_session(self):
         raise NotImplementedError()
 
+    def get_locale(self):
+        return 'ko'
+
     def isinstance(self, instance, cls):
         if not isinstance(cls, type):
             try:

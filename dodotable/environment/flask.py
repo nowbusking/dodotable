@@ -34,3 +34,13 @@ class FlaskEnvironment(Environment):
             return None
         else:
             return session
+
+    def get_locale(self):
+        # FIXME
+        # 현재 도도테이블을 사용하는 모든 Flask 서비스에서 공통적으로 정의되는
+        # 로케일 판별 수단이 뭐가 있을지 모르겠어서 일단 임시로 리퀘스트의
+        # accept_language를 사용합니다.
+        try:
+            return request.accept_languages.best_match(['ko', 'jp', 'en'])
+        except:
+            return 'ko'
