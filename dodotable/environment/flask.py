@@ -67,7 +67,7 @@ from flask import request
 from . import Environment
 
 
-__all__ = 'FlaskEnvironment',
+__all__ = 'FlaskEnvironment'
 
 
 class FlaskEnvironment(Environment):

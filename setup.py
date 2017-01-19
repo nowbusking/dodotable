@@ -63,12 +63,23 @@ setup(
     author_email='ed' '@' 'spoqa.com',
     packages=find_packages(exclude=['tests']),
     package_data={
-        'dodotable': ['templates/*.html'],
+        'dodotable': ['locale/*/LC_MESSAGES/*.mo', 'templates/*.html'],
     },
     install_requires=get_install_requirements(install_requires),
     extras_require={
         'tests': tests_require,
     },
+    setup_requires=['Babel'],
     tests_require=tests_require,
+    message_extractors={
+        'dodotable': [('**.py', 'python', None)],
+        'dodotable/templates': [
+            ('**.html', 'jinja2', {
+                'encoding': 'utf-8',
+                'extensions': 'jinja2.ext.autoescape,jinja2.ext.with_',  # noqa
+                'silent': 'false',
+            }),
+        ],
+    },
     classifiers=[]
 )

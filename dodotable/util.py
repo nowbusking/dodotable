@@ -4,6 +4,7 @@
 
 """
 import codecs
+import gettext
 import numbers
 import re
 
@@ -53,9 +54,15 @@ def render(template_name, extra_environments={}, **kwargs):
         default_loader)
     if not loader:
         loader = default_loader
+    get_translations = extra_environments.get('get_translations')
     env = Environment(loader=loader,
-                      extensions=('jinja2.ext.with_',))
+                      extensions=['jinja2.ext.i18n', 'jinja2.ext.with_'],
+                      autoescape=True)
     env.globals.update(extra_environments)
+    translations = get_translations() if callable(get_translations) else None
+    if translations is None:
+        translations = gettext.NullTranslations()
+    env.install_gettext_translations(translations)
     template = env.get_template(template_name)
     return template.render(**kwargs)
 

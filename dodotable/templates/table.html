@@ -17,7 +17,11 @@
       {%- endif -%}
 
       <div class="table-information">
-        총 {{ table.count }}개 {{ table.unit_label }}이(가) 있습니다.
+        {%- trans number=table.count, unit_label=table.unit_label -%}
+          There are {{ number }} {{ unit_label }} items.
+        {%- pluralize number -%}
+          There is {{ number }} {{ unit_label }} item.
+        {%- endtrans -%}
       </div>
     </div>
 
