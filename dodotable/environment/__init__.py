@@ -2,6 +2,27 @@
 """:mod:`dodotable.environment` --- Environment for dodotable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Customize your table
+====================
+
+Dodotable has :class:`dodotable.environment.Environment` to render data
+to template and get a instance of :class:`sqlalchemy.orm.session.Session` to
+requeset a query to database.
+
+Usually :class:`dodotable.environment.Environment` used in
+:class:`dodotable.schema.Schema`. :attr:`dodotable.schema.Schema.environment`
+generate template loader and define custom function to
+Jinja's environment to call a functions in template.
+
+So, you have to inherit environment class and implement some methods,
+
+- :meth:`dodotable.environment.Environment.template_loader`
+- :meth:`dodotable.environment.Environment.build_url`
+- :meth:`dodotable.environment.Environment.get_session`
+
+A good example is :class:`dodotable.environment.flask.FlaskEnvironment`.
+more examples are in it.
+
 """
 __all__ = 'Environment',
 

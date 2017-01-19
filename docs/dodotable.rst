@@ -4,8 +4,8 @@
    .. toctree::
       :maxdepth: 2
 
-      dodotable/environment
       dodotable/condition
+      dodotable/environment
       dodotable/exc
       dodotable/helper
       dodotable/schema
