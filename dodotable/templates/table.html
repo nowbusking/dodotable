@@ -33,9 +33,23 @@
     </thead>
 
     <tbody>
-      {% for row in table.rows %}
-      {{ row|safe }}
-      {% endfor %}
+      {%- if table.rows -%}
+        {% for row in table.rows %}
+        {{ row|safe }}
+        {% endfor %}
+      {%- else -%}
+        <tr>
+          <td class="table-empty-data" colspan="{{ table.columns | length }}">
+            {%- if get_locale() == 'ko' -%}
+              등록된 데이터가 없습니다.
+            {%- else if get_locale() == 'jp' -%}
+              登録されたデータがありません。
+            {%- else -%}
+              No result found.
+            {%- endif -%}
+          </td>
+        </tr>
+      {%- endif -%}
     </tbody>
   </table>
 
