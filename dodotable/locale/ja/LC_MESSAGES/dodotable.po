@@ -1,0 +1,35 @@
+# Japanese translations for dodotable.
+# Copyright (C) 2017 Kang Hyojun
+# This file is distributed under the same license as the dodotable project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dodotable 0.1.2\n"
+"Report-Msgid-Bugs-To: ed@spoqa.com\n"
+"POT-Creation-Date: 2017-01-19 15:58+0900\n"
+"PO-Revision-Date: 2017-01-19 14:46+0900\n"
+"Last-Translator: Hong Minhee <hongminhee@spoqa.com>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+#: dodotable/templates/limit.html:4
+#, fuzzy, python-format
+msgid "%(limit)s per page"
+msgid_plural "%(limit)s per page"
+msgstr[0] "%(limit)s件ずつ表示"
+
+#: dodotable/templates/table.html:20
+#, python-format
+msgid "There are %(number)s %(unit_label)s items."
+msgid_plural "There is %(number)s %(unit_label)s item."
+msgstr[0] "%(number)s件の「%(unit_label)s」があります。"
+
+#: dodotable/templates/table.html:47
+msgid "No result found."
+msgstr "登録された項目がありません。"

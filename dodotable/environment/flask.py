@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """:mod:`dodotable.environment.flask` --- Flask environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -67,11 +68,20 @@ from flask import request
 from . import Environment
 
 
-__all__ = 'FlaskEnvironment',
+__all__ = 'FlaskEnvironment', 'default_locale_selector'
 
 
 class FlaskEnvironment(Environment):
     """Build table with :mod:`flask`"""
+
+    def __init__(self, locale_selector=None, *args, **kwargs):
+        if locale_selector is None:
+            locale_selector = default_locale_selector
+        super(FlaskEnvironment, self).__init__(
+            *args,
+            locale_selector=locale_selector,
+            **kwargs
+        )
 
     def build_url(self, **kwargs):
         arg = request.args.copy()
@@ -93,3 +103,14 @@ class FlaskEnvironment(Environment):
             return None
         else:
             return session
+
+
+def default_locale_selector():
+    # FIXME
+    # 현재 도도테이블을 사용하는 모든 Flask 서비스에서 공통적으로 정의되는
+    # 로케일 판별 수단이 뭐가 있을지 모르겠어서 일단 임시로 리퀘스트의
+    # accept_language를 사용합니다.
+    try:
+        return request.accept_languages.best_match(['ko', 'jp', 'en'])
+    except:
+        return 'ko'
