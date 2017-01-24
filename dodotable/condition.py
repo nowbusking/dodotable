@@ -29,18 +29,18 @@ class SelectFilter(_Filter, Renderable):
 
     """
 
-    def __init__(self, cls, attribute_name, choices, arguments,
+    def __init__(self, cls, attribute_name, choices, request_args,
                  default=None):
         self.cls = cls
         self.attribute = getattr(cls, attribute_name)
         self.attribute_name = attribute_name
-        self.arguments = arguments
+        self.request_args = request_args
         self.choices = [{'name': 'all', 'description': u'모두'}] + choices
         self.default = default
 
     def __query__(self):
         arg_name = 'select.{}'.format(self.attribute_name)
-        s = self.arguments.get(arg_name, self.default)
+        s = self.request_args.get(arg_name, self.default)
         choices = [c['name'] for c in self.choices]
         if not s:
             q = self.attribute.in_(choices)
