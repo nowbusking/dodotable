@@ -12,10 +12,10 @@
 
   <li class="page-stepper">
     {%- if pager.pages[0].selected -%}
-      이전
+      {%- trans -%}Previous{%- endtrans -%}
     {%- else -%}
       <a href="{{ to_url(prev_page) }}" class="previous">
-        이전
+        {%- trans -%}Previous{%- endtrans -%}
       </a>
     {%- endif -%}
   </li>
@@ -23,6 +23,9 @@
   <li>
     <ol class="pager-pages">
       {% for page in pager.pages %}
+        {% if loop.last and pager.pages[-2] and page.number - pager.pages[-2].number > 1 %}
+          <li class="ellipsis">...</li>
+        {% endif %}
         <li class="{% if loop.first %}first{% elif loop.last %}last{% endif %}">
           {% if page.selected %}
             <span class="selected">{{ page.number }}</span>
@@ -32,6 +35,9 @@
             </a>
           {% endif %}
         </li>
+        {% if loop.first and pager.pages[1] and pager.pages[1].number - page.number > 1 %}
+          <li class="ellipsis">...</li>
+        {% endif %}
       {% endfor %}
     </ol>
   </li>
@@ -49,7 +55,7 @@
     다음
   {%- else %}
     <a href="{{ to_url(prev_page) }}" class="next">
-      다음
+      {%- trans -%}Next{%- endtrans -%}
     </a>
   {%- endif %}
   </li>
