@@ -1,21 +1,19 @@
 <div class="table-wrap">
-
   <div class="table-header-wrap">
     <div class="table-header">
       <h5 class="table-title">
         {{ table.label }}
       </h5>
-
       {%- if table._filters -%}
-      <div class="table-filters">
-        {%- for filter in table._filters -%}
-          {%- if isinstance(filter, 'dodotable.schema:Renderable') -%}
-            {{- filter|safe -}}
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
+        <div class="table-filters">
+          {%- for filter in table._filters -%}
+            {%- if isinstance(filter, 'dodotable.schema:Renderable') and not
+                   isinstance(filter, 'dodotable.helper:Limit') -%}
+              {{- filter|safe -}}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
       {%- endif -%}
-
       <div class="table-information">
         {%- trans number=table.count, unit_label=table.unit_label -%}
           There are {{ number }} {{ unit_label }} items.
@@ -24,22 +22,19 @@
         {%- endtrans -%}
       </div>
     </div>
-
   </div>
-
   <table class="table">
     <thead>
       <tr>
         {% for col in table.columns %}
-        {{ col|safe }}
+          {{ col|safe }}
         {% endfor %}
       </tr>
     </thead>
-
     <tbody>
       {%- if table.rows -%}
         {% for row in table.rows %}
-        {{ row|safe }}
+          {{ row|safe }}
         {% endfor %}
       {%- else -%}
         <tr>
@@ -50,11 +45,15 @@
       {%- endif -%}
     </tbody>
   </table>
-
   <div class="table-footer">
     {{ table.pager|safe }}
-
     <div class="limit-view">
+      {%- for filter in table._filters -%}
+        {%- if isinstance(filter, 'dodotable.schema:Renderable') and
+               isinstance(filter, 'dodotable.helper:Limit') -%}
+          {{- filter -}}
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 </div>
