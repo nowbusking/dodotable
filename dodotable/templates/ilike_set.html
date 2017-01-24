@@ -1,13 +1,15 @@
 {%- with search_word = filter.request_args.get(filter.arg_name, ''),
-         qs = {filter.arg_type_name: filter.request_args.get(filter.arg_type_name, ''),
-               filter.arg_name: search_word} -%}
+         search_type = filter.request_args.get(filter.arg_type_name, ''),
+         qs = {filter.arg_name: search_word,
+               filter.arg_type_name: search_type} -%}
 
    <form method="GET" action="{{ build_url(**qs) }}" class="search-filter-wrap">
      <select name="{{ filter.arg_type_name }}" class="form-control search-filter">
        {% for column in filter.table.columns %}
          {%- for filter in column.filters -%}
            {%- if isinstance(filter, 'dodotable.condition:Ilike') -%}
-             <option value="{{ column.attr }}">
+             <option value="{{ column.attr }}"
+                     {% if search_type == column.attr -%}selected{%- endif %}>
                {{ column.label }}
              </option>
            {%- endif -%}
