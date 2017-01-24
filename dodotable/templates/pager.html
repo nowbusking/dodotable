@@ -12,10 +12,10 @@
 
   <li class="page-stepper">
     {%- if pager.pages[0].selected -%}
-      이전
+      {%- trans -%}Previous{%- endtrans -%}
     {%- else -%}
       <a href="{{ to_url(prev_page) }}" class="previous">
-        이전
+        {%- trans -%}Previous{%- endtrans -%}
       </a>
     {%- endif -%}
   </li>
@@ -55,7 +55,7 @@
     다음
   {%- else %}
     <a href="{{ to_url(prev_page) }}" class="next">
-      다음
+      {%- trans -%}Next{%- endtrans -%}
     </a>
   {%- endif %}
   </li>
