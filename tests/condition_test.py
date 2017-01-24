@@ -83,7 +83,7 @@ def test_select_filter(fx_tags, fx_session, t):
             {'name': 'genre', 'description': ''},
             {'name': 'country', 'description': ''},
         ],
-        arguments={
+        request_args={
             'select.t': t
         }
     )
