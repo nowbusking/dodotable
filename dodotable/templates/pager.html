@@ -52,7 +52,7 @@
 
   <li class="page-stepper">
   {% if pager.pages[-1].selected -%}
-    다음
+      {%- trans -%}Next{%- endtrans -%}
   {%- else %}
     <a href="{{ to_url(prev_page) }}" class="next">
       {%- trans -%}Next{%- endtrans -%}

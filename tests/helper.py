@@ -59,13 +59,13 @@ class DodotableTestEnvironment(Environment):
 
 pager_html = u'''
 <ul class="pager">
-  <li class="page-stepper">이전</li>
+  <li class="page-stepper">Previous</li>
   <li>
       <ol class="pager-pages">
           <li class="first"><span class="selected">1</span></li>
       </ol>
   </li>
-  <li class="page-stepper">다음</li>
+  <li class="page-stepper">Next</li>
 </ul>
 '''
 
@@ -83,7 +83,7 @@ table_html = u'''
         </div>
 
         <div class="table-information">
-          총 {count}개 {unit_label}이(가) 있습니다.
+          There is {count} {unit_label} item.
         </div>
       </div>
 
