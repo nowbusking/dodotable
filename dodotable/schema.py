@@ -135,11 +135,14 @@ class Column(Schema, Renderable):
     :param list order_by: 정렬 기준
     :param list filters: 정렬 기준
     :param function _repr: 보여질 형식
+    :param bool sortable: 정렬 가능 여부
+    :param bool visible: 보일지 말지의 여부
 
     """
 
     def __init__(self, label, attr, order_by=(), filters=[],
-                 _repr=string_literal, sortable=True, classes=()):
+                 _repr=string_literal, sortable=True, visible=True,
+                 classes=()):
         from .condition import Order
         self.label = label
         self.attr = attr
@@ -147,6 +150,7 @@ class Column(Schema, Renderable):
         self.order_by = Order.of_column(attr, order_by)
         self._repr = _repr
         self.sortable = sortable
+        self.visible = visible
         self.classes = classes
 
     def add_filter(self, filter):
