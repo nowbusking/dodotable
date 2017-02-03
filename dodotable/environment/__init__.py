@@ -88,7 +88,7 @@ class Environment(object):
             locales = [locale]
         return gettext.translation(
             'dodotable',
-            os.path.join(os.path.dirname(__file__), 'locale'),
+            os.path.join(os.path.dirname(__file__), '..', 'locale'),
             fallback=True,
             codeset='utf-8',
             languages=locales
