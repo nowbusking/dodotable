@@ -320,7 +320,7 @@ class Table(Schema, Queryable, Renderable):
         q = self.query.offset(offset).limit(limit)
         for i, row in enumerate(q):
             _row = Row()
-            for j, col in enumerate(self._columns):
+            for j, col in enumerate(self.columns):
                 _row.append(
                     col.__cell__(col=j, row=i, data=row,
                                  attribute_name=col.attr)
@@ -381,7 +381,7 @@ class Table(Schema, Queryable, Renderable):
 
     @property
     def columns(self):
-        return self._columns
+        return [column for column in self._columns if column.visible]
 
     def __html__(self):
         return self.render('table.html', table=self)
