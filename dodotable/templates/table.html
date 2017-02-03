@@ -16,9 +16,9 @@
       {%- endif -%}
       <div class="table-information">
         {%- trans number=table.count, unit_label=table.unit_label -%}
-          There are {{ number }} {{ unit_label }} items.
-        {%- pluralize number -%}
           There is {{ number }} {{ unit_label }} item.
+        {%- pluralize number -%}
+          There are {{ number }} {{ unit_label }} items.
         {%- endtrans -%}
       </div>
     </div>
