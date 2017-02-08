@@ -165,7 +165,7 @@ class IlikeSet(_Filter, Queryable, Renderable):
 
     def __query__(self):
         filter_ = []
-        for column in self.table.columns:
+        for column in self.table._columns:
             for f in column.filters:
                 if isinstance(f, Ilike) and f.__query__() is not None:
                     filter_.append(f.__query__())
