@@ -136,7 +136,10 @@ class Column(Schema, Renderable):
     :param list filters: 정렬 기준
     :param function _repr: 보여질 형식
     :param bool sortable: 정렬 가능 여부
-    :param bool visible: 보일지 말지의 여부
+    :param bool visible: 테이블에 해당 칼럼이 보일지 말지의 여부.
+                         해당 값이 False여도
+                         :class:`~dodotable.condition.IlikeSet`의 필터에는
+                         보이므로 검색에는 사용할 수 있습니다.
 
     """
 

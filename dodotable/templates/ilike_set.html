@@ -5,7 +5,7 @@
 
    <form method="GET" action="{{ build_url(**qs) }}" class="search-filter-wrap">
      <select name="{{ filter.arg_type_name }}" class="form-control search-filter">
-       {% for column in filter.table.columns %}
+       {% for column in filter.table._columns %}
          {%- for filter in column.filters -%}
            {%- if isinstance(filter, 'dodotable.condition:Ilike') -%}
              <option value="{{ column.attr }}"
