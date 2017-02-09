@@ -14,7 +14,7 @@
     {%- if pager.pages[0].selected -%}
       {%- trans -%}Previous{%- endtrans -%}
     {%- else -%}
-      <a href="{{ to_url(prev_page) }}" class="previous">
+      <a href="{{ to_url(prev_page) }}" class="previous" rel="prev">
         {%- trans -%}Previous{%- endtrans -%}
       </a>
     {%- endif -%}
@@ -54,7 +54,7 @@
   {% if pager.pages[-1].selected -%}
       {%- trans -%}Next{%- endtrans -%}
   {%- else %}
-    <a href="{{ to_url(prev_page) }}" class="next">
+    <a href="{{ to_url(next_page) }}" class="next" rel="next">
       {%- trans -%}Next{%- endtrans -%}
     </a>
   {%- endif %}
