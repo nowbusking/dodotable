@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dodotable 0.1.2\n"
+"Project-Id-Version: dodotable 0.3.7\n"
 "Report-Msgid-Bugs-To: ed@spoqa.com\n"
-"POT-Creation-Date: 2017-02-03 13:25+0900\n"
+"POT-Creation-Date: 2017-02-10 10:02+0900\n"
 "PO-Revision-Date: 2017-01-19 14:46+0900\n"
 "Last-Translator: Hong Minhee <hongminhee@spoqa.com>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.3.4\n"
 
 #: dodotable/templates/limit.html:8
-#, fuzzy, python-format
+#, python-format
 msgid "%(limit)s per page"
 msgid_plural "%(limit)s per page"
 msgstr[0] "%(limit)s件ずつ表示"
@@ -33,7 +33,7 @@ msgid "Next"
 msgstr "次へ"
 
 #: dodotable/templates/table.html:18
-#, fuzzy, python-format
+#, python-format
 msgid "There is %(number)s %(unit_label)s item."
 msgid_plural "There are %(number)s %(unit_label)s items."
 msgstr[0] "%(number)s件の「%(unit_label)s」があります。"
