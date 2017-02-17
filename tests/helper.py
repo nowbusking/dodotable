@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
+
+from bs4 import BeautifulSoup
+
 try:
     from urllib import unquote
 except ImportError:
@@ -8,6 +11,14 @@ except ImportError:
 from lxml.html.diff import htmldiff
 
 from dodotable.environment import Environment
+
+
+def extract_soup(renderable):
+    """
+    :param renderable: Renderable
+    :return: beautifulsoup object of the renderable
+    """
+    return BeautifulSoup(renderable.__html__(), 'lxml')
 
 
 def removed_spaces(html):

@@ -10,5 +10,6 @@ docs/_build
 .cache
 .eggs
 
+.idea
 .tox
 *.mo

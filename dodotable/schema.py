@@ -298,14 +298,17 @@ class Table(Schema, Queryable, Renderable):
     """
 
     def __init__(self, cls, label, unit_label="row",
-                 columns=[],
+                 columns=None,
                  sqlalchemy_session=None):
         self.cls = cls
         self.label = label
         self.unit_label = unit_label
         self._filters = []
         self.rows = []
-        self._columns = columns
+        if columns is None:
+            self._columns = cls.__table__.columns.keys()
+        else:
+            self._columns = columns
         self._count = None
         self.session = sqlalchemy_session
         try:

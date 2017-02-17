@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import re
+
 from mock import PropertyMock, patch
 from pytest import mark
 
+from .helper import extract_soup
 from .entities import Music, Tag
 from .helper import (DodotableTestEnvironment, compare_html, pager_html,
                      table_html)
@@ -14,11 +17,12 @@ from dodotable.util import camel_to_underscore
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
        return_value=DodotableTestEnvironment())
 def test_ilike(environ, fx_session, fx_music):
-    word = fx_music.name
-    name = create_search_name(camel_to_underscore(Music.__name__))
+    """ Test all ilike related objects """
+
+    search_name = create_search_name(camel_to_underscore(Music.__name__))
     payload = dict([
-        (name['type'], u'name'),
-        (name['word'], word)
+        (search_name['type'], u'name'),
+        (search_name['word'], fx_music.name)
     ])
     table_label = u'test'
     table = Table(cls=Music, label=table_label, columns=[
@@ -27,50 +31,55 @@ def test_ilike(environ, fx_session, fx_music):
             Ilike(Music, 'name', payload)
         ]),
     ], sqlalchemy_session=fx_session)
-    ilike_set = IlikeSet(table=table,
-                         request_args=payload)
+
+    ilike_set = IlikeSet(table=table, request_args=payload)
+    ilike_set_soup = extract_soup(ilike_set)
+
+    # Must have input field with the search query.
+    assert ilike_set_soup.find(
+        'input',
+        {
+            'type': 'text',
+            'name': search_name['word'],
+            'value': fx_music.name,
+        }
+    )
+
+    # Must have hidden field with the search query.
+    assert ilike_set_soup.find(
+        'input',
+        {
+            'type': 'hidden',
+            'name': search_name['word'],
+            'value': fx_music.name,
+        }
+    )
+
     table.add_filter(ilike_set)
-    search_html = u'''
-    <form method="GET" action="/?search_music.type=name&search_music.word={1.name}" class="search-filter-wrap">
-        <select name="{0[type]}" class="form-control search-filter">
-            <option value="name">
-                이름
-            </option>
-        </select>
+    table_after_search = table.select(offset=0, limit=10)
+    table_after_search_soup = extract_soup(table_after_search)
 
-        <input type="text" name="{0[word]}"
-         value="{1.name}" class="form-control search-input" />
+    # Must display search result.
+    assert table_after_search_soup.find(
+        'td',
+        text=re.compile(re.escape(fx_music.name))
+    )
 
-        <input type="hidden" name="{0[word]}"
-         value="{1.name}" />
-    </form>
-    '''.format(name, fx_music)  # noqa
-    q = fx_session.query(Music) \
-                  .filter(Music.name.ilike(u'%{}%'.format(word)))
-    music = q.one()
-    expected_rows = u'''
-    <tr>
-      <td>{id}</td>
-      <td>{name}</td>
-    </tr>
-    '''.format(id=music.id, name=music.name)
-    column_html = u'''<tr><th class="order-desc ">
-      <a href="/?order_by=id.asc">id</a>
-    </th>
-    <th class="order-none ">
-      <a href="/?order_by=name.desc">이름</a>
-    </th>
-    </tr>
-    '''
-    actual_ilike = ilike_set.__html__()
-    assert compare_html(actual_ilike, search_html)
-    table = table.select(offset=0, limit=10)
-    actual_table = table.__html__()
-    expected_table = table_html(count=q.count(), rows=expected_rows,
-                                filters=search_html, columns=column_html,
-                                title=table_label, pager=pager_html,
-                                unit_label='row')
-    assert compare_html(actual_table, expected_table)
+    # Must not claim empty.
+    assert not table_after_search_soup.find(
+        'td',
+        class_='table-empty-data'
+    )
+
+    # Must display search result count.
+    result_count = fx_session.query(Music).filter(
+        Music.name.ilike(u'%{}%'.format(fx_music.name))
+    ).count()
+    assert table_after_search_soup.find(
+        'div',
+        class_='table-information',
+        text=re.compile(str(result_count))
+    )
 
 
 @mark.parametrize('t', ['genre', 'country'])

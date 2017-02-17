@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import re
+
 from mock import PropertyMock, patch
 
 from .entities import Music
-from .helper import (DodotableTestEnvironment, compare_html, pager_html,
-                     table_html)
+from .helper import (DodotableTestEnvironment, compare_html, extract_soup,
+                     pager_html, table_html)
 from dodotable.schema import Cell, Column, Row, Table, Pager
 
 
@@ -30,16 +32,19 @@ def test_row(environ):
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
        return_value=DodotableTestEnvironment())
 def test_column(environ):
-    column_label = 'name'
+    column_label = 'Name'
     column_key = 'name'
-    expected = '''
-        <th class="order-none ">
-            <a href="/?order_by={attr}.desc">{label}</a>
-        </th>
-    '''.format(attr=column_key, label=column_label)
+
     column = Column(attr=column_key, label=column_label)
     column.environment = DodotableTestEnvironment()
-    assert compare_html(column.__html__(), expected)
+    column_soup = extract_soup(column)
+
+    # Must provide link for sort by descending
+    assert column_soup.find(
+        'a',
+        href='/?order_by=%s.desc' % column_key,
+        text=re.compile(re.escape(column_label)),
+    )
 
 
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
@@ -47,14 +52,6 @@ def test_column(environ):
 def test_table(environ, fx_session, fx_music):
     q = fx_session.query(Music) \
         .order_by(Music.id.desc())
-    expected_rows = ''
-    for music in q:
-        expected_rows += u'''
-        <tr>
-            <td>{id}</td>
-            <td>{name}</td>
-        </tr>
-        '''.format(id=music.id, name=music.name)
     table_label = u'테스트'
     table = Table(
         cls=Music,
@@ -65,20 +62,30 @@ def test_table(environ, fx_session, fx_music):
         ],
         sqlalchemy_session=fx_session
     )
-    column_html = u'''<tr><th class="order-desc ">
-      <a href="/?order_by=id.asc">id</a>
-    </th>
-    <th class="order-none ">
-      <a href="/?order_by=name.desc">이름</a>
-    </th>
-    </tr>
-    '''
-    expected = table_html(count=q.count(), rows=expected_rows,
-                          filters='', columns=column_html,
-                          title=table_label, pager=pager_html,
-                          unit_label=u'row')
-    html = table.select(offset=0, limit=10).__html__()
-    assert compare_html(html, expected)
+    table_after_search = table.select(offset=0, limit=10)
+    table_after_search_soup = extract_soup(table_after_search)
+
+    # Must display search result.
+    assert table_after_search_soup.find(
+        'td',
+        text=re.compile(re.escape(fx_music.name))
+    )
+
+    # Must not claim empty.
+    assert not table_after_search_soup.find(
+        'td',
+        class_='table-empty-data'
+    )
+
+    # Must display search result count.
+    result_count = fx_session.query(Music).filter(
+        Music.name.ilike(u'%{}%'.format(fx_music.name))
+    ).count()
+    assert table_after_search_soup.find(
+        'div',
+        class_='table-information',
+        text=re.compile(str(result_count))
+    )
 
 
 class TestCell(Cell):
