@@ -29,13 +29,6 @@ def get_version():
             raise ValueError('could not find __version_info__')
 
 
-tests_require = [
-    'lxml',
-    'pytest >= 2.7.0',
-    'tox >= 2.1.1',
-    'import-order',
-    'flake8',
-]
 install_requires = [
     'setuptools',
     'Flask',
@@ -66,11 +59,7 @@ setup(
         'dodotable': ['locale/*/LC_MESSAGES/*.mo', 'templates/*.html'],
     },
     install_requires=get_install_requirements(install_requires),
-    extras_require={
-        'tests': tests_require,
-    },
     setup_requires=['Babel'],
-    tests_require=tests_require,
     message_extractors={
         'dodotable': [('**.py', 'python', None)],
         'dodotable/templates': [
