@@ -63,6 +63,7 @@ one of environment class, and use it in your table.
 
 """
 from __future__ import absolute_import
+
 from flask import request
 
 from . import Environment

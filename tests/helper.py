@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import lxml.html.diff
 import re
 try:
     from urllib import unquote
 except ImportError:
     from urllib.parse import unquote
+
+from lxml.html.diff import htmldiff
 
 from dodotable.environment import Environment
 
@@ -38,7 +39,7 @@ def html_unquote(html):
 def compare_html(actual, expected):
     _actual = removed_spaces(actual)
     _expected = removed_spaces(expected)
-    diff = html_unquote(lxml.html.diff.htmldiff(_actual, _expected))
+    diff = html_unquote(htmldiff(_actual, _expected))
     for i, (a, e) in enumerate(zip(_actual, _expected)):
         if a != e:
             print(i)

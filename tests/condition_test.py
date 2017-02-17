@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from pytest import mark
-
-from dodotable.condition import (Ilike, IlikeSet, SelectFilter, IlikeAlias,
-                                 create_search_name)
-from dodotable.schema import Table, Column
-from dodotable.util import camel_to_underscore
 from mock import PropertyMock, patch
+from pytest import mark
 
 from .entities import Music, Tag
 from .helper import (DodotableTestEnvironment, compare_html, pager_html,
                      table_html)
+from dodotable.condition import (Ilike, IlikeSet, IlikeAlias, SelectFilter,
+                                 create_search_name)
+from dodotable.schema import Column, Table
+from dodotable.util import camel_to_underscore
 
 
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,

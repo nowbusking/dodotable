@@ -22,9 +22,4 @@ else
   }
   flake8_benchmark="--benchmark"
 fi
-run flake8 --exclude=docs,.tox .
-run import-order \
-  --exclude=docs \
-  --exclude=tests \
-  --exclude=.tox \
-  dodotable .
+run flake8 .
