@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from dodotable.schema import Cell, Column, Row, Table, Pager
-from mock import patch, PropertyMock
+from mock import PropertyMock, patch
 
 from .entities import Music
-from .helper import (compare_html, DodotableTestEnvironment, pager_html,
+from .helper import (DodotableTestEnvironment, compare_html, pager_html,
                      table_html)
+from dodotable.schema import Cell, Column, Row, Table, Pager
 
 
 def test_cell():

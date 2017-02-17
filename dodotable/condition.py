@@ -3,7 +3,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
-import six
+from six import string_types
 from sqlalchemy.sql.expression import asc, desc, or_
 
 from .exc import BadChoice
@@ -208,7 +208,7 @@ class Order(Queryable):
         asc_order = cls.asc_order_name(attr)
         desc_order = cls.desc_order_name(attr)
         order = None
-        if not order_by or not isinstance(order_by, six.string_types):
+        if not order_by or not isinstance(order_by, string_types):
             return None
         for o in order_by.split(','):
             if o.strip() == asc_order:

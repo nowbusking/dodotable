@@ -9,7 +9,7 @@ import numbers
 import re
 
 from jinja2 import Environment, PackageLoader
-import six
+from six import PY2, text_type
 
 
 __all__ = (
@@ -82,9 +82,9 @@ def _get_data(data, attribute_name, default):
     return __data__(data, name_chain) or default
 
 
-if six.PY2:
+if PY2:
     def to_str(x):
-        if isinstance(x, six.text_type):
+        if isinstance(x, text_type):
             return x
         if isinstance(x, numbers.Number):
             x = str(x)
