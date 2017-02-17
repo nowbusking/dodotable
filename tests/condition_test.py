@@ -4,10 +4,8 @@ import re
 from mock import PropertyMock, patch
 from pytest import mark
 
-from .helper import extract_soup
 from .entities import Music, Tag
-from .helper import (DodotableTestEnvironment, compare_html, pager_html,
-                     table_html)
+from .helper import DodotableTestEnvironment, extract_soup
 from dodotable.condition import (Ilike, IlikeSet, IlikeAlias, SelectFilter,
                                  create_search_name)
 from dodotable.schema import Column, Table

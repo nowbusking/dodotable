@@ -4,8 +4,7 @@ import re
 from mock import PropertyMock, patch
 
 from .entities import Music
-from .helper import (DodotableTestEnvironment, compare_html, extract_soup,
-                     pager_html, table_html)
+from .helper import DodotableTestEnvironment, compare_html, extract_soup
 from dodotable.schema import Cell, Column, Row, Table, Pager
 
 
@@ -50,8 +49,6 @@ def test_column(environ):
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
        return_value=DodotableTestEnvironment())
 def test_table(environ, fx_session, fx_music):
-    q = fx_session.query(Music) \
-        .order_by(Music.id.desc())
     table_label = u'테스트'
     table = Table(
         cls=Music,
