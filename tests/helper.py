@@ -8,15 +8,16 @@ try:
 except ImportError:
     from urllib.parse import unquote
 
-from lxml.html.diff import htmldiff
-
 from dodotable.environment import Environment
 
 
 def extract_soup(renderable):
-    """
+    """Convert renderable dodotable schema into BeautifulSoup tag.
+
     :param renderable: Renderable
     :return: beautifulsoup object of the renderable
+    :rtype: :class:`bs4.BeautifulSoup`
+
     """
     return BeautifulSoup(renderable.__html__(), 'lxml')
 
@@ -45,18 +46,6 @@ def html_unquote(html):
     for target, replacement in replacements:
         html = html.replace(target, replacement)
     return html
-
-
-def compare_html(actual, expected):
-    _actual = removed_spaces(actual)
-    _expected = removed_spaces(expected)
-    diff = html_unquote(htmldiff(_actual, _expected))
-    for i, (a, e) in enumerate(zip(_actual, _expected)):
-        if a != e:
-            print(i)
-            break
-    assert diff == _actual, _actual[:i]
-    return diff == _actual
 
 
 class DodotableTestEnvironment(Environment):

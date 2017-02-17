@@ -4,28 +4,29 @@ import re
 from mock import PropertyMock, patch
 
 from .entities import Music
-from .helper import DodotableTestEnvironment, compare_html, extract_soup
+from .helper import DodotableTestEnvironment, extract_soup
 from dodotable.schema import Cell, Column, Row, Table, Pager
 
 
 def test_cell():
     s = 'hello world'
     c = Cell(0, 0, s)
-    expected = '<td>{data}</td>'.format(data=s)
-    assert compare_html(c.__html__(), expected)
+    cell_soup = extract_soup(c)
+    assert cell_soup.find('td')
+    assert s in cell_soup.find('td').text
 
 
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
        return_value=DodotableTestEnvironment())
 def test_row(environ):
-    expected = '<tr>'
     row = Row()
-    for n in range(0, 10):
-        cell = Cell(0, n, n)
+    cell_length = 10
+    for n in range(0, cell_length):
+        cell = Cell(0, n, str(n))
         row.append(cell)
-        expected += '<td>{}</td>'.format(cell.data)
-    expected += '</tr>'
-    assert compare_html(row.__html__(), expected)
+    row_soup = extract_soup(row)
+    tr = row_soup.find('tr')
+    assert len(tr.find_all('td')) == cell_length
 
 
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
@@ -85,30 +86,32 @@ def test_table(environ, fx_session, fx_music):
     )
 
 
-class TestCell(Cell):
+class MockCell(Cell):
 
     def __html__(self):
         return '<td><button>{}</button></td>'.format(self.data)
 
 
-class TestColumn(Column):
+class MockColumn(Column):
 
     def __cell__(self, col, row, data, attribute_name, default=None):
-        return TestCell(col=col, row=row,
+        return MockCell(col=col, row=row,
                         data=getattr(data, attribute_name, default))
 
 
 def test_custom_cell(fx_session, fx_music):
     fx_session.commit()
     table = Table(cls=Music, label='hello', columns=[
-        TestColumn(label=u'hello', attr='id', order_by='id.desc')
+        MockColumn(label=u'hello', attr='id', order_by='id.desc')
     ], sqlalchemy_session=fx_session)
     table.select(offset=0, limit=10)
     row = table.rows[0]
-    music = fx_session.query(Music).order_by(Music.id.desc()).first()
-    expected = '<tr><td><button>{}</button></td></tr>'.format(music.id)
-    actual = row.__html__()
-    assert compare_html(actual=actual, expected=expected)
+    row_soup = extract_soup(row)
+    cell = row_soup.find('td')
+    assert cell
+    button = cell.find('button')
+    assert button
+    assert str(fx_music.id) in button.text
 
 
 def to_page(l, current):
