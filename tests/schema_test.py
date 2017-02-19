@@ -21,7 +21,7 @@ def test_cell():
 def test_row(environ):
     row = Row()
     cell_length = 10
-    for n in range(0, cell_length):
+    for n in range(cell_length):
         cell = Cell(0, n, str(n))
         row.append(cell)
     row_soup = extract_soup(row)
