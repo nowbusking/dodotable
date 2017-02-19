@@ -12,8 +12,10 @@ def test_cell():
     s = 'hello world'
     c = Cell(0, 0, s)
     cell_soup = extract_soup(c)
-    assert cell_soup.find('td')
-    assert s in cell_soup.find('td').text
+    assert cell_soup.find(
+        'td',
+        text=re.compile(re.escape(s)),
+    )
 
 
 @patch('dodotable.schema.Schema.environment', new_callable=PropertyMock,
