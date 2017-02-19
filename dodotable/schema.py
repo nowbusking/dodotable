@@ -143,7 +143,7 @@ class Column(Schema, Renderable):
 
     """
 
-    def __init__(self, label, attr, order_by=(), filters=[],
+    def __init__(self, label, attr, order_by=(), filters=(),
                  _repr=string_literal, sortable=True, visible=True,
                  classes=()):
         from .condition import Order
