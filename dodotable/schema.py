@@ -306,7 +306,7 @@ class Table(Schema, Queryable, Renderable):
         self._filters = []
         self.rows = []
         if columns is None:
-            self._columns = cls.__table__.columns.keys()
+            self._columns = []
         else:
             self._columns = columns
         self._count = None
