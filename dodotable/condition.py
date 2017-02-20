@@ -24,7 +24,7 @@ class SelectFilter(_Filter, Renderable):
     :param attribute_name:
     :param choices:
     :param request_args:
-    :type request_args: :class:`werkzeug.datastructures.MultiDict`
+    :type request_args: :class:`~collections.abc.Mapping`
     :param default:
 
     """
@@ -109,7 +109,7 @@ class IlikeAlias(Ilike):
     :param identifier:
     :param alias_attr:
     :param request_args:
-    :type request_args: :class:`werkzeug.datastructures.MultiDict`
+    :type request_args: :class:`~collections.abc.Mapping`
 
     """
 
@@ -149,7 +149,7 @@ class IlikeSet(_Filter, Queryable, Renderable):
     :param table:
     :type table: :class:`dodotable.Table`
     :param request_args:
-    :type request_args: :class:`werkzeug.datastructures.MultiDict`
+    :type request_args: :class:`~collections.abc.Mapping`
     :param identifier:
 
     """
