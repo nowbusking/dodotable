@@ -40,7 +40,7 @@ class Environment(object):
                             or :class:`babel.core.Locale` as well.
                             if it's omitted or a return value is :const:`None`
                             English is shown.
-    :type locale_selector: :class:`collections.abc.Callable`
+    :type locale_selector: :class:`~collections.abc.Callable`
 
     """
 

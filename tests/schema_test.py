@@ -62,7 +62,7 @@ def test_table(environ, fx_session, fx_music):
         ],
         sqlalchemy_session=fx_session
     )
-    table_after_search = table.select(offset=0, limit=10)
+    table_after_search = table.select()
     table_after_search_soup = extract_soup(table_after_search)
 
     # Must display search result.
@@ -106,7 +106,7 @@ def test_custom_cell(fx_session, fx_music):
     table = Table(cls=Music, label='hello', columns=[
         MockColumn(label=u'hello', attr='id', order_by='id.desc')
     ], sqlalchemy_session=fx_session)
-    table.select(offset=0, limit=10)
+    table.select()
     row = table.rows[0]
     row_soup = extract_soup(row)
     cell = row_soup.find('td')

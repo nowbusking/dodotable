@@ -41,13 +41,15 @@ def camel_to_underscore(name):
     return all_cap_re.sub(r'\1_\2', s1).lower()
 
 
-def render(template_name, extra_environments={}, **kwargs):
+def render(template_name, extra_environments=None, **kwargs):
     """주어진 템플릿을 jinja로 렌더링합니다
 
     :param template_name:
     :return:
 
     """
+    if extra_environments is None:
+        extra_environments = {}
     default_loader = PackageLoader('dodotable', 'templates')
     loader = extra_environments.get(
         'template_loader',

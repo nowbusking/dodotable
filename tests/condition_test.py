@@ -54,7 +54,7 @@ def test_ilike(environ, fx_session, fx_music):
     )
 
     table.add_filter(ilike_set)
-    table_after_search = table.select(offset=0, limit=10)
+    table_after_search = table.select()
     table_after_search_soup = extract_soup(table_after_search)
 
     # Must display search result.
@@ -97,7 +97,7 @@ def test_select_filter(fx_tags, fx_session, t):
         Column('t', 't'),
     ], sqlalchemy_session=fx_session)
     tag_table.add_filter(select_filter)
-    tag_table = tag_table.select(0, 100)
+    tag_table = tag_table.select()
     xs = [r[0].data for r in tag_table.rows]
     assert all([x == t for x in xs])
 

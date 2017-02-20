@@ -143,10 +143,12 @@ class Column(Schema, Renderable):
 
     """
 
-    def __init__(self, label, attr, order_by=(), filters=(),
+    def __init__(self, label, attr, order_by=(), filters=None,
                  _repr=string_literal, sortable=True, visible=True,
                  classes=()):
         from .condition import Order
+        if filters is None:
+            filters = []
         self.label = label
         self.attr = attr
         self.filters = filters
@@ -321,7 +323,7 @@ class Table(Schema, Queryable, Renderable):
         self.pager = Pager(limit=1, offset=0, count=0)
         self.pager.environment = self.environment
 
-    def select(self, offset, limit):
+    def select(self, offset=Pager.DEFAULT_OFFSET, limit=Pager.DEFAULT_LIMIT):
         self.rows = []
         q = self.query.offset(offset).limit(limit)
         for i, row in enumerate(q):
