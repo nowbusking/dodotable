@@ -6,7 +6,7 @@ Contents:
    :maxdepth: 2
 
    dodotable
-
+   changes
 
 
 Indices and tables
