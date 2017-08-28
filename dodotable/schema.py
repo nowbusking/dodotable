@@ -19,8 +19,8 @@ from .util import render, string_literal, _get_data
 
 
 __all__ = (
-    'Cell', 'Column', 'ENVIRONMENT', 'Queryable', 'Renderable',
-    'Row', 'Table', 'Pager', 'Schema',
+    'Cell', 'Column', 'LinkedColumn', 'ObjectColumn', 'ENVIRONMENT',
+    'Queryable', 'Renderable', 'Row', 'Table', 'Pager', 'Schema',
 )
 
 
@@ -200,6 +200,24 @@ class LinkedColumn(Column):
         return LinkedCell(col=col, row=row,
                           data=_get_data(data, attribute_name, default),
                           endpoint=endpoint)
+
+
+class ObjectColumn(Column):
+    """Get __cell_.data as result instead of attribute."""
+
+    def __cell__(self, col, row, data, attribute_name, default=None):
+        return Cell(col=col, row=row,
+                    data=data if data else default,
+                    _repr=self._repr,
+                    classes=self.classes)
+
+
+class HiddenColumn(Column):
+    """보이지 않는 열"""
+
+    def __init__(self, *args, **kwargs):
+        super(HiddenColumn, self).__init__(*args, **kwargs)
+        self.visible = False
 
 
 class Row(Schema, MutableSequence, Renderable):
