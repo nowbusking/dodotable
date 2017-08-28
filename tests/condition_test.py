@@ -6,7 +6,7 @@ from pytest import mark
 
 from .entities import Music, Tag
 from .helper import DodotableTestEnvironment, extract_soup
-from dodotable.condition import (Ilike, IlikeSet, IlikeAlias, SelectFilter,
+from dodotable.condition import (Ilike, IlikeAlias, IlikeSet, SelectFilter,
                                  create_search_name)
 from dodotable.schema import Column, Table
 from dodotable.util import camel_to_underscore
