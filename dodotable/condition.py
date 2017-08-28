@@ -4,7 +4,7 @@
 
 """
 from six import string_types
-from sqlalchemy.sql.expression import asc, desc, or_
+from sqlalchemy.sql.expression import asc, desc, null, or_
 
 from .exc import BadChoice
 from .schema import Queryable, Renderable, Schema
@@ -57,6 +57,22 @@ class SelectFilter(_Filter, Renderable):
 
     def __html__(self):
         return self.render('select_filter.html', filter=self)
+
+
+class NullSelectableSelectFilter(SelectFilter):
+
+    NULL = 'null'
+    NOT_NULL = 'not-null'
+
+    def __query__(self):
+        q = super(NullSelectableSelectFilter, self).__query__()
+        arg_name = 'select.{}'.format(self.attribute_name)
+        s = self.request_args.get(arg_name, self.default)
+        if s == self.NULL:
+            q = self.attribute.is_(null())
+        elif s == self.NOT_NULL:
+            q = self.attribute.isnot(null())
+        return q
 
 
 def create_search_name(name):
