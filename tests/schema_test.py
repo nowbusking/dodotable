@@ -5,7 +5,7 @@ from mock import PropertyMock, patch
 
 from .entities import Music
 from .helper import DodotableTestEnvironment, extract_soup
-from dodotable.schema import Cell, Column, Row, Table, Pager
+from dodotable.schema import Cell, Column, Pager, Row, Table
 
 
 def test_cell():

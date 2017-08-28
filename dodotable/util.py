@@ -78,10 +78,10 @@ def _get_data(data, attribute_name, default):
                 return __data__(getattr(_data, name_chain[0]),
                                 name_chain[1:])
             except AttributeError:
-                return u''
+                return default
         return _data
 
-    return __data__(data, name_chain) or default
+    return __data__(data, name_chain)
 
 
 if PY2:
