@@ -4,7 +4,7 @@
 
 """
 from six import string_types
-from sqlalchemy.sql.expression import asc, desc, null, or_
+from sqlalchemy.sql.expression import asc, desc, false, null, or_
 
 from .exc import BadChoice
 from .schema import Queryable, Renderable, Schema
@@ -141,6 +141,45 @@ class IlikeAlias(Ilike):
         q = None
         if word and type == self.alias_attr.name:
             q = self.alias_attr.ilike(u'%{word}%'.format(word=word))
+        return q
+
+
+class Equal(Ilike):
+
+    def __init__(self, cls, attribute_name, type_, request_args):
+        super(Equal, self).__init__(cls, attribute_name, request_args)
+        self.type_ = type_
+
+    def __query__(self):
+        name = create_search_name(camel_to_underscore(self.cls.__name__))
+        type_ = self.request_args.get(name['type'])
+        word = self.request_args.get(name['word'])
+        q = None
+        if type_ == self.attribute_name:
+            try:
+                q = self.attribute == self.type_(word)
+            except ValueError:
+                return false()
+        return q
+
+
+class EqualAlias(IlikeAlias):
+
+    def __init__(self, identifier, alias_attr, type_, request_args):
+        super(EqualAlias, self).__init__(identifier, alias_attr,
+                                         request_args)
+        self.type_ = type_
+
+    def __query__(self):
+        name = create_search_name(self.identifier)
+        word = self.request_args.get(name['word'])
+        type = self.request_args.get(name['type'])
+        q = None
+        if word and type == self.alias_attr.name:
+            try:
+                q = self.alias_attr == self.type_(word)
+            except ValueError:
+                q = false()
         return q
 
 
