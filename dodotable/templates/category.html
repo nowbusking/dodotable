@@ -1,0 +1,12 @@
+{%- with name = "select.{}".format(filter.attribute_name) -%}
+  {%- set selected_name = filter.request_args.get(name, filter.default) -%}
+  <ul class="{{ filter.attribute_name }}">
+    {%- for choice in filter.choices -%}
+      <a href="{{ build_url(**{name: choice['name'], 'limit': 10, 'offset': 0}) }}">
+      <li {% if selected_name == choice['name'] %}class="selected"{% endif %}>
+        {{ choice['description'] }}
+      </li>
+      </a>
+    {%- endfor -%}
+  </ul>
+{%- endwith -%}
