@@ -3,11 +3,12 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
+from .condition import SelectFilter
 from .schema import Queryable, Renderable, Schema
 from .util import camel_to_underscore
 
 
-__all__ = 'Limit',
+__all__ = '_Helper', 'Limit', 'Category',
 
 
 class _Helper(Schema):
@@ -32,6 +33,16 @@ class Limit(_Helper, Renderable, Queryable):
 
     def __html__(self):
         return self.render('limit.html', filter=self)
+
+
+class Category(_Helper, SelectFilter):
+    """``select`` 태그로 렌더링되는 필터가 아닌
+    카테고리 형식으로 렌더링되는 필터를 제공합니다.
+
+    """
+
+    def __html__(self):
+        return self.render('category.html', filter=self)
 
 
 def monkey_patch_environment(environ):
