@@ -53,7 +53,7 @@ Using with Flask_
 ~~~~~~~~~~~~~~~~~
 
 Flask_ uses Jinja2_ as the template engine. As they mentioned on
-document[1]_, it is one of strategy that implement ``__html__`` on every class
+document [1]_, it is one of strategy that implement ``__html__`` on every class
 inherit ``dodotable.schema.Renderable`` to convert a instance into HTML
 directly in Jinja2_. Re-write the example written before with Flask_.
 
