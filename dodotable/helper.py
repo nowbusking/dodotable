@@ -16,7 +16,7 @@ class _Helper(Schema):
 
 
 class Limit(_Helper, Renderable, Queryable):
-    """querystring 중에 ``limit``\ 를 조작해서 100개보기 같은 기능을
+    """querystring 중에 ``limit`` 를 조작해서 100개보기 같은 기능을
     제공합니다.
 
     """

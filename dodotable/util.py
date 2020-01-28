@@ -25,7 +25,7 @@ all_cap_re = re.compile('([a-z0-9])([A-Z])')
 
 
 def camel_to_underscore(name):
-    """CamelCase로 주어진 ``name``\ 을 underscore_with_lower_case로 변환합니다
+    """CamelCase로 주어진 ``name`` 을 underscore_with_lower_case로 변환합니다
 
     .. code-block:: python
 

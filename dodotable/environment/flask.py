@@ -113,5 +113,5 @@ def default_locale_selector():
     # accept_language를 사용합니다.
     try:
         return request.accept_languages.best_match(['ko', 'jp', 'en'])
-    except:
+    except Exception:
         return 'ko'
