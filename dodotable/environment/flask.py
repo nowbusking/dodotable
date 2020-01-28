@@ -93,7 +93,7 @@ class FlaskEnvironment(Environment):
                 arg.pop(attr)
         arg.update(kwargs.items())
         rule = request.url_rule
-        result = rule.build(arg)
+        result = rule.build({k: v for k, v in arg.items()})
         return result[1]
 
     def get_session(self):
