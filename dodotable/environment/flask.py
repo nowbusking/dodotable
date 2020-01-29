@@ -93,7 +93,7 @@ class FlaskEnvironment(Environment):
                 arg.pop(attr)
         arg.update(kwargs.items())
         rule = request.url_rule
-        result = rule.build(arg)
+        result = rule.build({k: v for k, v in arg.items()})
         return result[1]
 
     def get_session(self):
@@ -113,5 +113,5 @@ def default_locale_selector():
     # accept_language를 사용합니다.
     try:
         return request.accept_languages.best_match(['ko', 'jp', 'en'])
-    except:
+    except Exception:
         return 'ko'
